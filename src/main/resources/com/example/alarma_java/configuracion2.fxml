@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="462.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alarma_java.Controller.configuracion2Controller">
+    <children>
+        <Pane prefHeight="462.0" prefWidth="655.0" style="-fx-background-color: rgba(38,64,67,255);">
+            <children>
+                <BorderPane layoutX="-1.0" layoutY="-4.0" prefHeight="438.0" prefWidth="655.0">
+                    <top>
+                        <HBox alignment="CENTER" spacing="10" style="-fx-background-color: rgba(38,64,67,255);">
+                            <ImageView fx:id="logoImageViewTopLeft" fitHeight="62.0" fitWidth="66.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@../images/logo.png" />
+                                </image>
+                                <HBox.margin>
+                                    <Insets left="20.0" />
+                                </HBox.margin>
+                            </ImageView>
+                            <ImageView fx:id="logoImageViewTopRight" fitHeight="67.0" fitWidth="151.0">
+                                <image>
+                                    <Image url="@../images/titulo.png" />
+                                </image>
+                            </ImageView>
+                            <Region prefHeight="68.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                            <Pane HBox.hgrow="ALWAYS" />
+                            <ImageView fitHeight="36.0" fitWidth="45.0">
+                                <Image url="@../images/speaker.png" />
+                            </ImageView>
+                            <ImageView fitHeight="35.0" fitWidth="44.0">
+                                <Image url="@../images/cloud.png" />
+                            </ImageView>
+                            <ImageView fitHeight="35.0" fitWidth="69.0">
+                                <Image url="@../images/wifi.png" />
+                            </ImageView>
+                        </HBox>
+                    </top>
+                    <center>
+                        <GridPane prefHeight="285.0" prefWidth="655.0" BorderPane.alignment="CENTER">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints maxHeight="74.60001220703126" minHeight="10.0" prefHeight="60.20001068115234" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="117.79998626708985" minHeight="10.0" prefHeight="46.99998779296875" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="219.19998779296878" minHeight="10.0" prefHeight="66.20001220703125" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="211.60001220703123" minHeight="10.0" prefHeight="116.4" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="154.99997558593748" minHeight="10.0" prefHeight="84.19997558593752" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="655.0" spacing="10" style="-fx-padding: 10;">
+                                    <children>
+                                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="20.0" prefWidth="138.0" style="-fx-text-fill: white; -fx-font-size: 14;" text="Id usuario" textAlignment="CENTER">
+                                            <HBox.margin>
+                                                <Insets top="10.0" />
+                                            </HBox.margin></Label>
+                                        <ComboBox prefHeight="15.0" prefWidth="190.0" style="-fx-font-size: 14;">
+                                            <HBox.margin>
+                                                <Insets top="10.0" />
+                                            </HBox.margin></ComboBox>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="94.0" prefWidth="655.0" spacing="10" style="-fx-padding: 10;" GridPane.rowIndex="1">
+                                    <children>
+                                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="38.0" prefWidth="141.0" style="-fx-text-fill: white; -fx-font-size: 14;" text="Contraseña nueva" textAlignment="RIGHT" wrapText="true">
+                                            <HBox.margin>
+                                                <Insets top="10.0" />
+                                            </HBox.margin></Label>
+                                        <ComboBox prefHeight="30.0" prefWidth="189.0" style="-fx-font-size: 14;">
+                                            <HBox.margin>
+                                                <Insets top="10.0" />
+                                            </HBox.margin>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets></ComboBox>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="10" style="-fx-padding: 10;" GridPane.rowIndex="2">
+                                    <children>
+                                        <Label contentDisplay="CENTER" prefHeight="20.0" prefWidth="137.0" style="-fx-text-fill: white; -fx-font-size: 14;" text="Confirmar Contraseña" textAlignment="RIGHT">
+                                            <HBox.margin>
+                                                <Insets top="10.0" />
+                                            </HBox.margin></Label>
+                                        <ComboBox prefHeight="30.0" prefWidth="190.0" style="-fx-font-size: 14;">
+                                            <HBox.margin>
+                                                <Insets top="10.0" />
+                                            </HBox.margin></ComboBox>
+                                    </children>
+                                </HBox>
+                                <VBox alignment="CENTER" fillWidth="false" prefHeight="161.0" prefWidth="655.0" snapToPixel="false" style="-fx-padding: 10;" GridPane.rowIndex="3">
+                                    <children>
+                                        <Label prefHeight="30.0" prefWidth="338.0" scaleShape="false" style="-fx-font-size: 20; -fx-background-color: #4CAF50; -fx-font-weight: bold; -fx-text-fill: white;" text=" Mensaje" textAlignment="CENTER" wrapText="true" />
+                                        <Label alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="120.0" prefWidth="338.0" style="-fx-font-size: 16; -fx-background-color: white; -fx-text-fill: black;" text=" Cambios realizados con éxito" />
+                                    </children>
+                                </VBox>
+                                <HBox alignment="CENTER" prefHeight="2.0" prefWidth="655.0" spacing="10" style="-fx-padding: 10;" GridPane.rowIndex="4">
+                                    <children>
+                                        <Button mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Guardar">
+                                            <HBox.margin>
+                                                <Insets bottom="30.0" left="60.0" />
+                                            </HBox.margin></Button>
+                                        <Button mnemonicParsing="false" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="Cancelar">
+                                            <HBox.margin>
+                                                <Insets bottom="30.0" />
+                                            </HBox.margin></Button>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </GridPane>
+                    </center>
+                    <left>
+                        <VBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="72.0" spacing="10" style="-fx-background-color: rgba(38,64,67,255);">
+                            <Region VBox.vgrow="ALWAYS" />
+                            <Button onAction="#gotoHome" style="-fx-background-color: rgba(38,64,67,255);">
+                                <graphic>
+                                    <ImageView fitHeight="49.0" fitWidth="56.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../images/home.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                            <Button onAction="#gotoInfo" style="-fx-background-color: rgba(38,64,67,255);">
+                                <graphic>
+                                    <ImageView fitHeight="51.0" fitWidth="61.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../images/info.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                                <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                </VBox.margin>
+                            </Button>
+                        </VBox>
+                    </left>
+
+                </BorderPane>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alarma_java.Controller.InicioController">
+    <top>
+        <HBox alignment="CENTER" spacing="10" style="-fx-background-color: rgba(38,64,67,255);" HBox.hgrow="ALWAYS">
+            <ImageView fx:id="logoImageViewTopLeft" fitHeight="68.0" fitWidth="108.0" preserveRatio="true" HBox.hgrow="NEVER">
+                <image>
+                    <Image url="@../images/logo.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="logoImageViewTopRight" fitHeight="53.0" fitWidth="198.0" preserveRatio="true" HBox.hgrow="NEVER">
+                <image>
+                    <Image url="@../images/titulo.png" />
+                </image>
+            </ImageView>
+            <Region HBox.hgrow="ALWAYS" /> <!-- This region will grow and push the elements to the sides -->
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 30px -fx-background-color: rgba(38,64,67,255); -fx-background-color: rgba(38,64,67,255);" VBox.vgrow="ALWAYS">
+            <Text fill="white" style="-fx-font-size: 2em;" textAlignment="CENTER" wrappingWidth="0" VBox.vgrow="NEVER">
+                Bienvenido a su sistema inteligente de Alarma
+            </Text>
+            <Text fill="white" style="-fx-font-size: 2em;" textAlignment="CENTER" wrappingWidth="0" VBox.vgrow="NEVER">
+                Para iniciar su configuración, el asistente lo guiará por tres sencillos pasos
+            </Text>
+            <Button onAction="#onHelloButtonClick" style="-fx-background-color: rgba(96,169,23,255); -fx-font-size: 1em;" text="Iniciar asistente" textFill="white" VBox.vgrow="NEVER">
+                Iniciar asistente
+            </Button>
+        </VBox>
+    </center>
+</BorderPane>
