@@ -1,81 +1,79 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QGridLayout
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
+import sys
+from home import MainUI
 
 class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Login")
-        self.setGeometry(100, 100, 640, 480)
-
+        self.setWindowTitle("Teclado Numérico")
+        self.setGeometry(0, 0, 1920, 1080)
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
+        hbox_top = QHBoxLayout()
 
+        hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
+        hbox_top.setSpacing(1)
+
+        logo_image_top_left = QLabel()
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))      
+        logo_image_top_left.setScaledContents(True)
+
+        logo_image_top_right = QLabel()
+        logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
+        logo_image_top_right.setScaledContents(True)
+
+        hbox_top.addWidget(logo_image_top_left)
+        hbox_top.addWidget(logo_image_top_right)
+        hbox_top.addStretch(1)
+
+        central_layout = QVBoxLayout()
         layout = QVBoxLayout()
-        central_widget.setLayout(layout)
-
-        top_layout = QHBoxLayout()
-        layout.addLayout(top_layout)
-
-        logo_top_left = QLabel()
-        pixmap_left = QPixmap("../images/logo.png")
-        logo_top_left.setPixmap(pixmap_left)
-        top_layout.addWidget(logo_top_left)
-
-        logo_top_right = QLabel()
-        pixmap_right = QPixmap("../images/titulo.png")
-        logo_top_right.setPixmap(pixmap_right)
-        top_layout.addWidget(logo_top_right)
-
-        center_layout = QVBoxLayout()
-        layout.addLayout(center_layout)
-
+        layout.setAlignment(Qt.AlignCenter)
+        layout.setContentsMargins(50, 50, 50, 50)
         password_label = QLabel("Ingrese su contraseña de acceso")
-        center_layout.addWidget(password_label)
+        password_label.setStyleSheet("font-size: 18px; color: #ffffff;")
+        layout.addWidget(password_label)
 
-        self.password_field = QLineEdit()
-        center_layout.addWidget(self.password_field)
+        password_field = QLineEdit()
+        password_field.setPlaceholderText("Contraseña")
+        password_field.setStyleSheet("max-width: 300; height: 30px; font-size: 18px; background-color: #ffffff;")
+        layout.addWidget(password_field)
 
-        num_pad_layout = QVBoxLayout()
-        center_layout.addLayout(num_pad_layout)
+        numpad_grid = QGridLayout()
+        numpad_grid.setHorizontalSpacing(10)
+        numpad_grid.setVerticalSpacing(10)
 
-        row1_layout = QHBoxLayout()
-        num_pad_layout.addLayout(row1_layout)
-        for i in range(1, 4):
-            button = QPushButton(str(i))
-            row1_layout.addWidget(button)
+        buttons = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", ""]
+        positions = [(i, j) for i in range(4) for j in range(3)]
 
-        row2_layout = QHBoxLayout()
-        num_pad_layout.addLayout(row2_layout)
-        for i in range(4, 7):
-            button = QPushButton(str(i))
-            row2_layout.addWidget(button)
+        for position, button_text in zip(positions, buttons):
+            if button_text:
+                button = QPushButton(button_text)
+                button.setStyleSheet("min-width: 60px; min-height: 60px; background-color: rgb(217, 217, 217);")
+                numpad_grid.addWidget(button, *position)
 
-        row3_layout = QHBoxLayout()
-        num_pad_layout.addLayout(row3_layout)
-        for i in range(7, 10):
-            button = QPushButton(str(i))
-            row3_layout.addWidget(button)
-
-        row4_layout = QHBoxLayout()
-        num_pad_layout.addLayout(row4_layout)
-        zero_button = QPushButton("0")
-        row4_layout.addWidget(zero_button)
+        layout.addLayout(numpad_grid)
 
         login_button = QPushButton("Ingresar")
-        center_layout.addWidget(login_button)
+        login_button.setStyleSheet("min-width: 120px; min-height: 60px; background-color: #388e3c; color: #ffffff;")
+        layout.addWidget(login_button)
+        central_layout.addLayout(hbox_top)
+        central_layout.addLayout(layout)
+        central_widget.setLayout(central_layout)
 
-        left_layout = QVBoxLayout()
-        layout.addLayout(left_layout)
+        login_button.clicked.connect(self.login)
+    
+    
 
-        info_button = QPushButton()
-        info_button.setIcon(QIcon("../images/info.png"))
-        info_button.setIconSize(QSize(61, 51))
-        left_layout.addWidget(info_button)
+    def login(self):
+        self.home = MainUI()
+        self.home.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

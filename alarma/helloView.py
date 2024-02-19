@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Aplicación de Saludo")
-        self.setGeometry(100, 100, 640, 480)
+        self.setGeometry(0, 0, 1920, 1080)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
