@@ -58,7 +58,7 @@ class Alertas(QMainWindow):
         # main_layout.addLayout(vbox)
 
         label = QLabel("Registro de alertas del sistema")
-        label.setStyleSheet("font-size: 20px; color: white;")  # Cambia el color del título de las columnas
+        label.setStyleSheet("font-size: 26px; color: white;")  # Cambia el color del título de las columnas
         label.setAlignment(Qt.AlignCenter)
         vbox.addWidget(label)
 
@@ -92,6 +92,8 @@ class Alertas(QMainWindow):
                     table.item(row, col).setBackground(QColor(200, 200, 200))  
 
         vbox.addWidget(table)
+        self.showFullScreen()
+
 
     def gotoHome(self):
         from home import MainUI

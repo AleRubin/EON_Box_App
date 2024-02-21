@@ -76,6 +76,7 @@ class Sos(QMainWindow):
         center_layout.addLayout(central_layout)
         center_layout.addItem(QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
         main_layout.addLayout(center_layout)
+        self.showFullScreen()
 
     def gotoHome(self):
         from home import MainUI

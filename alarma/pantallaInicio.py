@@ -57,6 +57,7 @@ class InicioWindow(QMainWindow):
         central_layout = QVBoxLayout(central_widget)
         central_layout.addLayout(hbox_top)
         central_layout.addLayout(vbox_center)
+        self.showFullScreen()
 
     def on_hello_button_click(self):
         self.wizard1_window = Wizard1Window()

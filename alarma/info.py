@@ -72,6 +72,7 @@ class Info(QMainWindow):
         info_layout.addWidget(scroll_area)
         center_layout.addLayout(info_layout)
         main_layout.addLayout(center_layout)
+        self.showFullScreen()
 
     def gotoHome(self):
         from home import MainUI

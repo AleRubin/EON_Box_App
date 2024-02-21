@@ -71,6 +71,8 @@ class WarningSystem(QMainWindow):
         frame_layout.addWidget(message_label)
 
         center_layout.addWidget(frame)
+        self.showFullScreen()
+
     def gotoHome(self):
         from home import MainUI 
         self.window = MainUI()

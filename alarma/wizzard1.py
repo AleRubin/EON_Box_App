@@ -17,7 +17,6 @@ class LoginWindow(QMainWindow):
         hbox_top = QHBoxLayout()
 
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
-        hbox_top.setSpacing(1)
 
         logo_image_top_left = QLabel()
         logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))      
@@ -29,12 +28,17 @@ class LoginWindow(QMainWindow):
 
         hbox_top.addWidget(logo_image_top_left)
         hbox_top.addWidget(logo_image_top_right)
-        hbox_top.addStretch(1)
+
+        welcome_label = QLabel("Ingrese su contraseña.")
+        welcome_label.setStyleSheet("color: white; font-size: 40px; font-weight: bold;")
+        welcome_label.setAlignment(Qt.AlignCenter)
+        welcome_label.setContentsMargins(0, 50, 0, 20)
 
         central_layout = QVBoxLayout()
+        central_layout.setAlignment(Qt.AlignCenter)
         layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignCenter)
-        layout.setContentsMargins(50, 50, 50, 50)
+        layout.setAlignment(Qt.AlignCenter | Qt.AlignTop)
+        # layout.setContentsMargins(50, 50, 50, 50)
         password_label = QLabel("Ingrese su contraseña de acceso")
         password_label.setStyleSheet("font-size: 18px; color: #ffffff;")
         layout.addWidget(password_label)
@@ -63,11 +67,14 @@ class LoginWindow(QMainWindow):
         login_button.setStyleSheet("min-width: 120px; min-height: 60px; background-color: #388e3c; color: #ffffff;")
         layout.addWidget(login_button)
         central_layout.addLayout(hbox_top)
+        central_layout.addWidget(welcome_label)
+        central_layout.addStretch(1)
         central_layout.addLayout(layout)
+        central_layout.addStretch(1)
         central_widget.setLayout(central_layout)
 
         login_button.clicked.connect(self.login)
-    
+        self.showFullScreen()
     
 
     def login(self):

@@ -77,6 +77,7 @@ class Monitor(QMainWindow):
 
         right_layout.addWidget(video_frame)
         main_layout.addLayout(central_layout)
+        self.showFullScreen()
 
     def gotoHome(self):
         from home import MainUI 

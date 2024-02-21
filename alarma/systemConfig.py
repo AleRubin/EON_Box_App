@@ -28,6 +28,7 @@ class SystemConfig(QMainWindow):
         hbox_top.addWidget(logo_image_top_right)
         hbox_top.addStretch(1)
         main_layout.addLayout(hbox_top)
+        main_layout.addStretch(1)
         central_layout = QHBoxLayout()
         main_layout.addLayout(central_layout)
 
@@ -49,10 +50,12 @@ class SystemConfig(QMainWindow):
         button_info.setStyleSheet("background-color: rgba(38,64,67,255);")
         button_info.clicked.connect(self.gotoInfo)
         left_layout.addWidget(button_info)
+        central_layout.addStretch(1)
         grid_layout = QGridLayout()
         central_layout.addLayout(grid_layout)
+        central_layout.addStretch(1)
         main_layout.addLayout(grid_layout)
-        grid_layout.setAlignment(Qt.AlignCenter | Qt.AlignTop)
+        grid_layout.setAlignment(Qt.AlignCenter)
         buttons_info = [
             ("images/retardo.png", "Retardo", 0, 0, self.gotoRetardo),
             ("images/conexion_nube.png", "Conexion nube EON", 0, 1, self.gotoConexionNube),
@@ -66,21 +69,27 @@ class SystemConfig(QMainWindow):
 
         for url, label_text, row, column, function in buttons_info:
             button = QPushButton()
-            button.setStyleSheet("background-color: rgb(77, 128, 119); color: white;")
-            button.setFixedSize(200, 200)
+            button.setStyleSheet("background-color: rgb(77, 128, 119); color: white; font-size: 20px;")
+            button.setFixedSize(400, 400)
 
             icon_label = QLabel()
-            icon_label.setPixmap(QPixmap(url).scaledToWidth(90))  
+            icon_label.setPixmap(QPixmap(url).scaledToWidth(150))  
+            icon_label.setAlignment(Qt.AlignCenter)
             text_label = QLabel(label_text)
+            text_label.setAlignment(Qt.AlignCenter)
 
             layout = QVBoxLayout(button)
+            layout.addStretch(1)
             layout.addWidget(icon_label)
+            layout.addStretch(1)
             layout.addWidget(text_label)
             layout.setAlignment(Qt.AlignCenter)  
 
             button.clicked.connect(function)
 
             grid_layout.addWidget(button, row, column)
+        main_layout.addStretch(1)
+        self.showFullScreen()
     
     def gotoHome(self):
         from home import MainUI

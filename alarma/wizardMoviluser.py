@@ -10,7 +10,6 @@ class MovilUserWindow(QMainWindow):
 
         self.setWindowTitle("Configuración de usuario")
         self.setGeometry(0, 0, 1920, 1080)
-
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
         hbox_top = QHBoxLayout()
@@ -34,7 +33,7 @@ class MovilUserWindow(QMainWindow):
         vbox_center.setSpacing(20)
 
         welcome_label = QLabel("Configuración de usuario")
-        welcome_label.setStyleSheet("color: white; font-size: 2em; font-weight: bold;")
+        welcome_label.setStyleSheet("color: white; font-size: 40px; font-weight: bold;")
         welcome_label.setAlignment(Qt.AlignCenter)
         welcome_label.setContentsMargins(0, 50, 0, 20)
 
@@ -42,12 +41,20 @@ class MovilUserWindow(QMainWindow):
         grid.setAlignment(Qt.AlignCenter)
         grid.setSpacing(10)
 
+        grid.setColumnStretch(0, 1)
+        grid.setColumnStretch(1, 1)
+        grid.setRowStretch(0, 1)
+        grid.setRowStretch(1, 1)
+        grid.setRowStretch(2, 1)        
+
         user_label = QLabel("Id usuario")
         user_label.setStyleSheet("color: white; font-size: 1.5em;")
+        user_label.setMaximumSize(60, 50)
         grid.addWidget(user_label, 0, 0)
 
         user_id = QLineEdit()
         user_id.setStyleSheet("font-size: 1.5em; background-color: white; color: black;")
+        user_id.setMaximumSize(300, 50)
         grid.addWidget(user_id, 0, 1)
 
         qr_image = QLabel()
@@ -57,13 +64,18 @@ class MovilUserWindow(QMainWindow):
         grid.addWidget(qr_image, 1, 1)
 
         qr_label = QLabel("Escanee el código con la aplicación móvil cuando lo solicite")
-        qr_label.setStyleSheet("color: #bdc3c7; font-size: 1.5em;")
+        qr_label.setStyleSheet("color: #bdc3c7; font-size: 11px;")
+        qr_label.setMaximumSize(400, 50)
         qr_label.setAlignment(Qt.AlignCenter)
 
         grid.addWidget(qr_label, 2, 1)
 
-        vbox_center.addStretch(1)
+        grid.setRowMinimumHeight(0, 50)
+        grid.setRowMinimumHeight(1, 200)
+        grid.setRowMinimumHeight(2, 50)
+
         vbox_center.addWidget(welcome_label)
+        vbox_center.addStretch(1)
         vbox_center.addLayout(grid)
         vbox_center.addStretch(1)
 
@@ -73,7 +85,6 @@ class MovilUserWindow(QMainWindow):
 
         next_button = QPushButton("Siguiente")
         next_button.setStyleSheet("background-color: #27ae60; color: white; font-size: 1.5em; font-weight: bold; padding: 10px 20px;")
-        hbox_bottom.addStretch(1)
         hbox_bottom.addWidget(next_button)
 
         central_widget = QWidget()
@@ -84,6 +95,7 @@ class MovilUserWindow(QMainWindow):
         central_layout.addLayout(hbox_bottom)
 
         next_button.clicked.connect(self.gotoLogin)
+        self.showFullScreen()
 
     def gotoLogin(self):
         self.login = LoginWindow()

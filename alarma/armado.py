@@ -29,12 +29,14 @@ class Armado(QMainWindow):
         hbox_top.addWidget(logo_image_top_right)
         hbox_top.addStretch(1)
         main_layout.addLayout(hbox_top)
+        main_layout.addStretch(1)
         hbox = QHBoxLayout()
         main_layout.addLayout(hbox)
         central_layout = QHBoxLayout()
         left_layout = QVBoxLayout()
         left_layout.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
         central_layout.addLayout(left_layout)
+        central_layout.addStretch(1)
 
         button_home = QPushButton()
         button_home.setIcon(QIcon("images/home.png"))
@@ -54,8 +56,10 @@ class Armado(QMainWindow):
         central_layout.addLayout(armado_layout)
         # Buttons in left VBox
         armado_desarmado_button = QPushButton()
-        armado_desarmado_button.setIcon(QIcon("images/armado_desarmado_total.png"))
-        armado_desarmado_button.setIconSize(QPixmap("images/armado_desarmado_total.png").size())
+        image = QPixmap("images/armado_desarmado_total1.png")
+        scaled_pixmap = image.scaled(QSize(image.width() * 1.2, image.height() * 1.2))
+        armado_desarmado_button.setIcon(QIcon(scaled_pixmap))
+        armado_desarmado_button.setIconSize(QPixmap("images/armado_desarmado_total1.png").size() * 1.2)
         armado_desarmado_button.setStyleSheet("background-color: rgba(38,64,67,255); color: white; font-weight: bold;")
         armado_layout.addWidget(armado_desarmado_button)
 
@@ -67,17 +71,22 @@ class Armado(QMainWindow):
 
         for item in armado_sensor_buttons:
             button = QPushButton(item["text"])
-            button.setStyleSheet(f"background-color: {item['color']}; color: white; font-weight: bold;")
+            button.setStyleSheet(f"background-color: {item['color']}; color: white; font-weight: bold; font-size: 30px;")
+            button.setFixedWidth(image.width() * 1.2 + 20)
+            button.setFixedHeight(70)
             armado_layout.addWidget(button)
 
         # Right VBox
         right_vbox = QVBoxLayout()
         right_vbox.setAlignment(Qt.AlignCenter)
-        right_vbox.setSpacing(10)
+        right_vbox.setSpacing(20)
         right_vbox.setContentsMargins(20, 20, 20, 20)
 
         right_frame = QFrame()
+        # right_vbox.addStretch(1)
+
         central_layout.addLayout(right_vbox)
+
         right_frame.setStyleSheet("background-color: rgba(38,64,67,255);")
 
         hbox.addWidget(right_frame)
@@ -91,15 +100,24 @@ class Armado(QMainWindow):
         ]
 
         for item in labels_and_buttons:
-            label = QLabel(item["text"])
-            label.setStyleSheet("color: white;")
-            label.setFont(QFont("Arial", item.get("font_size", 14)))
-            right_vbox.addWidget(label)
+            if item["text"] == "Información de los sensores":
+                label = QLabel(item["text"])
+                label.setStyleSheet("color: white; font-size: 24px;")
+                right_vbox.addWidget(label)
+                right_vbox.addStretch(1)
+                
+            else:
+                label = QLabel(item["text"])
+                label.setStyleSheet("color: white;")
+                label.setFont(QFont("Arial", item.get("font_size", 14)))
+                right_vbox.addWidget(label)
 
             if "input_placeholder" in item:
                 text_field = QLineEdit()
                 text_field.setPlaceholderText(item["input_placeholder"])
-                text_field.setStyleSheet("color: white; font-size: 1.5em; background-color: white;")
+                text_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
+                text_field.setFixedHeight(40)
+                text_field.setFixedWidth(400)
                 right_vbox.addWidget(text_field)
 
             if "button_texts" in item:
@@ -131,8 +149,11 @@ class Armado(QMainWindow):
                         button.setStyleSheet("background-color: rgba(38,64,67,255); color: white; font-weight: bold;")
                         hbox_buttons.addWidget(button)
                 right_vbox.addLayout(hbox_buttons)
-
+        central_layout.addStretch(1)
         main_layout.addLayout(central_layout)
+        main_layout.addStretch(1)
+        # main_layout.addStretch(1)
+        self.showFullScreen()
 
     def gotoHome(self):
             from home import MainUI

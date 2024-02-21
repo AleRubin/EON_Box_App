@@ -55,10 +55,12 @@ class MainWindow(QMainWindow):
         central_layout.addLayout(vbox_center)
         logo_image_center.mousePressEvent = self.switch_to_new_screen
 
+        self.showFullScreen()
+
     def switch_to_new_screen(self, event):
         self.inicio_window = InicioWindow()
         self.inicio_window.show()
-        self.hide()
+        self.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

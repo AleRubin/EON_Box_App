@@ -18,7 +18,7 @@ class MainUI(QMainWindow):
         hbox_top = QHBoxLayout()
 
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
-        hbox_top.setSpacing(1)
+        # hbox_top.setSpacing(1)
 
         logo_image_top_left = QLabel()
         logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))      
@@ -30,9 +30,11 @@ class MainUI(QMainWindow):
 
         hbox_top.addWidget(logo_image_top_left)
         hbox_top.addWidget(logo_image_top_right)
-        hbox_top.addStretch(1)
+        # hbox_top.addStretch(1)
         main_layout.addLayout(hbox_top)
+        main_layout.addStretch(1)
         center_layout = QHBoxLayout()
+        center_layout.setAlignment(Qt.AlignCenter)
         main_layout.addLayout(center_layout)
         left_layout = QVBoxLayout()
         left_layout.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
@@ -44,7 +46,7 @@ class MainUI(QMainWindow):
         button_home.setStyleSheet("background-color: rgba(38,64,67,255);")
         button_home.clicked.connect(self.info)
         left_layout.addWidget(button_home)
-
+        center_layout.addStretch(1)
         left_vbox = QVBoxLayout()
         left_vbox.setSpacing(10)
         left_vbox.setContentsMargins(10, 10, 10, 10)
@@ -86,15 +88,13 @@ class MainUI(QMainWindow):
                 label.setStyleSheet(label.styleSheet() + f"border: {item['border']}; color: {item['text_color']};")
                 label.setFont(QFont("Arial", item["size"]))
             right_vbox.addWidget(label)
-
         center_layout.addLayout(right_vbox)
-
         bottom_layout = QVBoxLayout()
         center_layout.addLayout(bottom_layout)
+        center_layout.addStretch(1)
 
         bottom_grid1 = QHBoxLayout()
         bottom_layout.addLayout(bottom_grid1)
-
         buttons_ad = [
             {"image_path": "images/armado.png", "action": self.gotoArmadoDesarmado},
             {"image_path": "images/alertas.png", "action": self.gotoAlertas}
@@ -102,8 +102,10 @@ class MainUI(QMainWindow):
 
         for item in buttons_ad:
             button = QPushButton()
-            button.setIcon(QIcon(item["image_path"]))
-            button.setIconSize(QPixmap(item["image_path"]).size())
+            image = QPixmap(item["image_path"])
+            scaled_pixmap = image.scaled(QSize(image.width() * 1.5, image.height() * 1.5))
+            button.setIcon(QIcon(scaled_pixmap))
+            button.setIconSize(QPixmap(item["image_path"]).size() *1.5)
             button.setStyleSheet("background-color: rgba(38,64,67,255);")
             button.clicked.connect(item["action"])
             bottom_grid1.addWidget(button)
@@ -111,6 +113,7 @@ class MainUI(QMainWindow):
         # Second QHBoxLayout for Monitor, SOS, and Configuración buttons
         bottom_grid2 = QHBoxLayout()
         bottom_layout.addLayout(bottom_grid2)
+        main_layout.addStretch(1)
         buttons_msc = [
             {"image_path": "images/monitor.png", "action": self.gotoMonitor},
             {"image_path": "images/sos.png", "action": self.gotoSOS},
@@ -119,11 +122,14 @@ class MainUI(QMainWindow):
 
         for item in buttons_msc:
             button = QPushButton()
-            button.setIcon(QIcon(item["image_path"]))
-            button.setIconSize(QPixmap(item["image_path"]).size())
+            image = QPixmap(item["image_path"])
+            scaled_pixmap = image.scaled(QSize(image.width() * 1.5, image.height() * 1.5))
+            button.setIcon(QIcon(scaled_pixmap))
+            button.setIconSize(QPixmap(item["image_path"]).size() * 1.5)
             button.setStyleSheet("background-color: rgba(38,64,67,255);")
             button.clicked.connect(item["action"])
             bottom_grid2.addWidget(button)
+        self.showFullScreen()
 
     def gotoArmadoDesarmado(self):
         self.armado = Armado()
