@@ -8,7 +8,7 @@ class UserWizard(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Configuración de usuario")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
@@ -123,7 +123,7 @@ class UserWizard(QMainWindow):
         central_layout = QVBoxLayout(central_widget)
         central_layout.addLayout(hbox_top)
         central_layout.addLayout(vbox_center)
-        self.showFullScreen()
+        
 
     def on_next_button_click(self):
         self.user_wizard = MovilUserWindow()

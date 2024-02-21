@@ -9,7 +9,7 @@ class InicioWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Pantalla de Inicio")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
@@ -57,7 +57,7 @@ class InicioWindow(QMainWindow):
         central_layout = QVBoxLayout(central_widget)
         central_layout.addLayout(hbox_top)
         central_layout.addLayout(vbox_center)
-        self.showFullScreen()
+        
 
     def on_hello_button_click(self):
         self.wizard1_window = Wizard1Window()

@@ -9,7 +9,7 @@ class MainUI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
     
         main_widget = QWidget()
@@ -129,7 +129,7 @@ class MainUI(QMainWindow):
             button.setStyleSheet("background-color: rgba(38,64,67,255);")
             button.clicked.connect(item["action"])
             bottom_grid2.addWidget(button)
-        self.showFullScreen()
+        
 
     def gotoArmadoDesarmado(self):
         self.armado = Armado()

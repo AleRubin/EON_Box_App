@@ -9,7 +9,7 @@ class Wizard1Window(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Asistente de Configuración")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
@@ -142,7 +142,7 @@ class Wizard1Window(QMainWindow):
 
         central_layout.addLayout(hbox_top)
         central_layout.addLayout(vbox_center)
-        self.showFullScreen()
+        
 
     def next_button_on_click(self):
         self.wizard1_window = UserWizard()

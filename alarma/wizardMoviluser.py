@@ -9,7 +9,7 @@ class MovilUserWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Configuración de usuario")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
         hbox_top = QHBoxLayout()
@@ -95,7 +95,7 @@ class MovilUserWindow(QMainWindow):
         central_layout.addLayout(hbox_bottom)
 
         next_button.clicked.connect(self.gotoLogin)
-        self.showFullScreen()
+        
 
     def gotoLogin(self):
         self.login = LoginWindow()
