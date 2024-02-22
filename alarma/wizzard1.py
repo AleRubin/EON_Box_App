@@ -9,7 +9,7 @@ class LoginWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Teclado Numérico")
-        self.setGeometry(0, 0, 1024, 600)
+        self.setGeometry(0, 0, 1920, 1080)
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
         central_widget = QWidget()
@@ -45,7 +45,7 @@ class LoginWindow(QMainWindow):
 
         password_field = QLineEdit()
         password_field.setPlaceholderText("Contraseña")
-        password_field.setStyleSheet("max-width: 300; height: 30px; font-size: 18px; background-color: #ffffff;")
+        password_field.setStyleSheet("color: #000; max-width: 300; height: 30px; font-size: 18px; background-color: #ffffff;")
         layout.addWidget(password_field)
 
         numpad_grid = QGridLayout()
@@ -74,7 +74,7 @@ class LoginWindow(QMainWindow):
         central_widget.setLayout(central_layout)
 
         login_button.clicked.connect(self.login)
-        
+        self.showFullScreen()
     
 
     def login(self):

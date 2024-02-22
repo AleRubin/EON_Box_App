@@ -9,8 +9,7 @@ class AdvancedWizard(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Asistente de Configuración")
-        self.setGeometry(0, 0, 1024, 600)
-
+        self.setGeometry(0, 0, 1920, 1080)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
         
@@ -131,7 +130,7 @@ class AdvancedWizard(QMainWindow):
 
         next_button.clicked.connect(self.next_button_on_click)
         cancel_button.clicked.connect(self.cancel_button_on_click)
-        
+        self.showFullScreen()
 
     def back_button_on_click(self):
         from wizzard import Wizard1Window

@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Aplicación de Saludo")
-        self.setGeometry(0, 0, 1024, 600)
+        self.setGeometry(0, 0, 1920, 1080)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
 
         text_label = QLabel("EON Innovaction")
         font = QFont()
-        font.setPointSize(23)
+        font.setPointSize(60)
         text_label.setFont(font)
         text_label.setStyleSheet("color: white;")
         
@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         central_layout.addLayout(vbox_center)
         logo_image_center.mousePressEvent = self.switch_to_new_screen
 
-        
+        self.showFullScreen()
 
     def switch_to_new_screen(self, event):
         self.inicio_window = InicioWindow()
