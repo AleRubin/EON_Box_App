@@ -9,7 +9,7 @@ class MainUI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0,1024,600)
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
     
         main_widget = QWidget()
@@ -55,7 +55,7 @@ class MainUI(QMainWindow):
         grid_label.setStyleSheet("background-color: #ffffff; border-radius: 10px;")
         grid_label.setAlignment(Qt.AlignCenter)
         grid_label.setFont(QFont("Arial", 18))
-        grid_label.setFixedWidth(200)
+        grid_label.setFixedWidth(100)
         left_vbox.addWidget(grid_label)
 
         center_layout.addLayout(left_vbox)
@@ -103,9 +103,9 @@ class MainUI(QMainWindow):
         for item in buttons_ad:
             button = QPushButton()
             image = QPixmap(item["image_path"])
-            scaled_pixmap = image.scaled(QSize(int(image.width() * 1.5), int(image.height() * 1.5)))
+            scaled_pixmap = image.scaled(QSize(int(image.width() * .8), int(image.height() * .8)))
             button.setIcon(QIcon(scaled_pixmap))
-            button.setIconSize(QPixmap(item["image_path"]).size() *1.5)
+            button.setIconSize(QPixmap(item["image_path"]).size() * .8)
             button.setStyleSheet("background-color: rgba(38,64,67,255);")
             button.clicked.connect(item["action"])
             bottom_grid1.addWidget(button)
@@ -123,9 +123,9 @@ class MainUI(QMainWindow):
         for item in buttons_msc:
             button = QPushButton()
             image = QPixmap(item["image_path"])
-            scaled_pixmap = image.scaled(QSize(int(image.width() * 1.5), int(image.height() * 1.5)))
+            scaled_pixmap = image.scaled(QSize(int(image.width() * .8), int(image.height() * .8)))
             button.setIcon(QIcon(scaled_pixmap))
-            button.setIconSize(QPixmap(item["image_path"]).size() * 1.5)
+            button.setIconSize(QPixmap(item["image_path"]).size() * .8)
             button.setStyleSheet("background-color: rgba(38,64,67,255);")
             button.clicked.connect(item["action"])
             bottom_grid2.addWidget(button)

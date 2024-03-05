@@ -9,7 +9,7 @@ class AdvancedWizard(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Asistente de Configuración")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
         
@@ -19,7 +19,7 @@ class AdvancedWizard(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))         
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  

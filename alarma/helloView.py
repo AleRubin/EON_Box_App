@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Aplicación de Saludo")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0,1024,600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))  
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))  
         logo_image_top_left.setScaledContents(True)
 
         logo_image_top_right = QLabel()
@@ -34,8 +34,12 @@ class MainWindow(QMainWindow):
         vbox_center.setAlignment(Qt.AlignCenter)
 
         logo_image_center = QLabel()
-        logo_image_center.setPixmap(QPixmap("images/logo.png").scaledToWidth(379))  # Escalar al ancho de 379
+        logo_image_center.setPixmap(QPixmap("images/logo.png"))  # Escalar al ancho de 379
         logo_image_center.setScaledContents(True)
+        width = 300
+        height = 300
+        logo_image_center.setFixedWidth(width)
+        logo_image_center.setFixedHeight(height)
 
         text_label = QLabel("EON Innovaction")
         font = QFont()

@@ -8,7 +8,7 @@ class UserWizard(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Configuración de usuario")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 

@@ -6,7 +6,7 @@ class SystemConfig(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0, 1024, 600)
         self.setStyleSheet("background-color: rgba(38,64,67,255); color: white;")
 
         main_widget = QWidget()
@@ -18,7 +18,7 @@ class SystemConfig(QMainWindow):
         hbox_top.setSpacing(1)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))         
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
@@ -70,7 +70,7 @@ class SystemConfig(QMainWindow):
         for url, label_text, row, column, function in buttons_info:
             button = QPushButton()
             button.setStyleSheet("background-color: rgb(77, 128, 119); color: white; font-size: 20px;")
-            button.setFixedSize(400, 400)
+            button.setFixedSize(200, 200)
 
             icon_label = QLabel()
             icon_label.setPixmap(QPixmap(url).scaledToWidth(150))  
