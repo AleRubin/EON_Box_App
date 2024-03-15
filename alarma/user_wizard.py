@@ -2,13 +2,22 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QLineEdit, QComboBox, QRadioButton
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
+from PyQt5 import QtWidgets
 from wizardMoviluser import MovilUserWindow
+import sqlite3
+connection = sqlite3.connect("alarma.db")
+cursor = connection.cursor()
+
 class UserWizard(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        cursor.execute('SELECT * FROM cuenta')
+        data = cursor.fetchone()
+        user_id = data[1]
+
         self.setWindowTitle("Configuración de usuario")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0,1024,600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
@@ -53,43 +62,54 @@ class UserWizard(QMainWindow):
         user_id_label.setMaximumSize(300, 50)
         grid.addWidget(user_id_label, 0, 0)
         self.user_id_field = QLineEdit()
+        self.user_id_field.setText(user_id)
+        self.user_id_field.setReadOnly(True)
         grid.addWidget(self.user_id_field, 0, 1)
         self.user_id_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
         self.user_id_field.setMaximumSize(300, 50)
         self.user_id_field.setPlaceholderText("Ingrese un id de usuario")
 
-        password_label = QLabel("Contraseña (6 dígitos numéricos)")
-        password_label.setStyleSheet("color: white; font-size: 20px;")
-        password_label.setMaximumSize(300, 50)
-        grid.addWidget(password_label, 1, 0)
-        self.password_field = QLineEdit()
-        grid.addWidget(self.password_field, 1, 1)
-        self.password_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
-        self.password_field.setMaximumSize(300, 50)
-        self.password_field.setPlaceholderText("Ingresar una contraseña numérica de 6 dígitos")
-        self.password_field.setEchoMode(QLineEdit.Password)
-
-        confirm_password_label = QLabel("Confirmar Contraseña")
-        confirm_password_label.setStyleSheet("color: white; font-size: 20px;")
-        confirm_password_label.setMaximumSize(300, 50)
-        grid.addWidget(confirm_password_label, 2, 0)
-        self.confirm_password_field = QLineEdit()
-        grid.addWidget(self.confirm_password_field, 2, 1)
-        self.confirm_password_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
-        self.confirm_password_field.setPlaceholderText("Confirmar la contraseña")
-        self.confirm_password_field.setMaximumSize(300, 50)
-        self.confirm_password_field.setEchoMode(QLineEdit.Password)
 
         email_label = QLabel("Ingrese un correo electrónico")
         email_label.setStyleSheet("color: white; font-size: 20px;")
         email_label.setMaximumSize(300, 50)
-        grid.addWidget(email_label, 3, 0)
+        grid.addWidget(email_label, 1, 0)
         self.email_field = QLineEdit()
-        grid.addWidget(self.email_field, 3, 1)
-        self.email_field.setStyleSheet("color: black; font-size: 1.5em;")
+        grid.addWidget(self.email_field, 1, 1)
+        self.email_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
         self.email_field.setMaximumSize(300, 50)
-        self.email_field.setStyleSheet("background-color: white;")
         self.email_field.setPlaceholderText("Ingrese un correo electrónico")
+
+
+        password_label = QLabel("Contraseña (6 dígitos numéricos)")
+        password_label.setStyleSheet("color: white; font-size: 20px;")
+        password_label.setMaximumSize(300, 50)
+        grid.addWidget(password_label, 2, 0)
+        self.password_edit = QLineEdit()
+        grid.addWidget(self.password_edit, 2, 1)
+        self.password_edit.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
+        self.password_edit.setMaximumSize(300, 50)
+        self.password_edit.setPlaceholderText("Ingrese una contraseña")
+        self.password_edit.setReadOnly(True)
+
+        layout = QVBoxLayout()
+        numpad_grid = QGridLayout()
+        numpad_grid.setHorizontalSpacing(10)
+        numpad_grid.setVerticalSpacing(10)
+
+        buttons = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", ""]
+        positions = [(i, j) for i in range(4) for j in range(3)]
+
+        for position, button_text in zip(positions, buttons):
+            if button_text:
+                button = QPushButton(button_text)
+                button.clicked.connect(lambda _, text=button_text: self.on_numpad_button_click(text))
+                button.setStyleSheet("min-width: 60px; min-height: 60px; background-color: black; color: white; font-size: 1.5em;")
+                numpad_grid.addWidget(button, *position)
+
+        
+        layout.addLayout(numpad_grid)
+        grid.addLayout(layout, 3, 1)
 
         grid.setRowMinimumHeight(0, 40)
         grid.setRowMinimumHeight(1, 40)
@@ -125,7 +145,13 @@ class UserWizard(QMainWindow):
         central_layout.addLayout(vbox_center)
         self.showFullScreen()
 
+    def on_numpad_button_click(self, text):
+        self.password_edit.setText(self.password_edit.text() + text)
+
     def on_next_button_click(self):
+        cursor.execute('UPDATE cuenta SET pin = ? WHERE id = ?', (self.password_edit.text(), 1))
+        connection.commit()
+
         self.user_wizard = MovilUserWindow()
         self.user_wizard.show()
         self.close()

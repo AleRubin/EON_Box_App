@@ -6,7 +6,7 @@ class Alertas(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0,1024,600)
         self.setStyleSheet("background-color: rgba(38,64,67,255); color: white;")
 
         main_widget = QWidget()

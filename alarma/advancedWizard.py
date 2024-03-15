@@ -9,7 +9,7 @@ class AdvancedWizard(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Asistente de Configuración")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0,1024,600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
         
