@@ -191,7 +191,7 @@ class Wizard1Window(QMainWindow):
 
         # Agregar los nombres de las redes al QComboBox
         for network in networks:
-           self.network_combo.addItem(network.ssid)
+          self.network_combo.addItem(network.ssid)
 
     def show_password_on_click(self):
         if self.show_password.isChecked():

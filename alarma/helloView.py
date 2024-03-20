@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QHBoxLayout, QVBoxLayout,
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt
 from pantallaInicio import InicioWindow
-from home import MainUI
+from wizzard1 import LoginWindow
 import sqlite3
 connection = sqlite3.connect("alarma.db")
 cursor = connection.cursor()
@@ -73,9 +73,13 @@ class MainWindow(QMainWindow):
     def switch_to_new_screen(self, event):
         cursor.execute('SELECT * FROM cuenta')
         informacion = cursor.fetchone()
-        id = informacion[0]
+        # validar si viene informacion[0]
+        id = 0
+        if informacion:
+            id = informacion[0]
+            
         if id == 1:
-            self.main_window = MainUI()
+            self.main_window = LoginWindow()
             self.main_window.show()
             self.close()
         else:
