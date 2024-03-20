@@ -42,7 +42,7 @@ class Wizard1Window(QMainWindow):
         
         
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))                  
         logo_image_top_left.setScaledContents(True)
         
         logo_image_top_right = QLabel()
@@ -157,7 +157,7 @@ class Wizard1Window(QMainWindow):
 
         self.populate_networks()
 
-        self.showFullScreen()
+        
 
     def next_button_on_click(self):
         # get https://anam.eonproduccion.net:9001/alarmas/api/dispositivo/mac/b8:27:eb:6a:7b:4c

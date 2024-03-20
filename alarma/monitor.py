@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QVBoxLayout, QVBoxLayout, QFrame, QSizePolicy
-from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QPixmap, QIcon, QImage
+from PyQt5.QtCore import Qt, QSize, QTimer
 import cv2
 
 class Monitor(QMainWindow):
@@ -65,6 +65,7 @@ class Monitor(QMainWindow):
         button_monitor_interior.setIcon(QIcon("images/camara_interior.png"))
         button_monitor_interior.setIconSize(QSize(200, 200))
         button_monitor_interior.setStyleSheet("background-color: rgb(77, 128, 119); color: white;")
+        button_monitor_exterior.clicked.connect(self.activeCamera2)
         center_layout.addWidget(button_monitor_interior)
 
         right_layout = QVBoxLayout()
@@ -72,31 +73,51 @@ class Monitor(QMainWindow):
         central_layout.addLayout(right_layout)
 
         # Frame para representar el video
-        video_frame = QFrame()
-        video_frame.setStyleSheet("background-color: black;")
-        video_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-
-        right_layout.addWidget(video_frame)
+        self.video_frame = QFrame()
+        self.video_frame.setStyleSheet("background-color: black;")
+        self.video_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        right_layout.addWidget(self.video_frame)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.activeCamera)
+        self.timer.start(30)
         main_layout.addLayout(central_layout)
         self.showFullScreen()
 
     def activeCamera(self):
-        cap = cv2.VideoCapture('rtsp://admin:eonboxseg1@192.168.1.248/H264?ch=1&subtype=0')
+        cap = cv2.VideoCapture('rtsp://admin:eonboxseg1@192.168.1.249/H264?ch=1&subtype=0')
         # agregar el codigo para mostrar el video en el video_frame
         # video_frame poder ver el video en tiempo real
-        while (True):
-            ret, frame=cap.read()
+        ret, frame=cap.read()
+        if ret:
             frame=cv2.resize(frame,(640,350))
-            cv2.imshow('Capturing',frame)
+            img = QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
+            pixmap = QPixmap.fromImage(img)
+            pixmap = pixmap.scaled(self.video_frame.size(), Qt.KeepAspectRatio)
+            #cv2.imshow('Capturing',frame)
             
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-        cap.release()
-        cv2.destroyAllWindows()
-        return 0
-     
+            label = QLabel(self.video_frame)
+            label.setPixmap(pixmap)
+            label.setAlignment(Qt.AlignCenter)
+            label.setGeometry(0,0, self.video_frame.width(), self.video_frame.height())
+            label.show()
 
-    
+    def activeCamera2(self):
+        cap = cv2.VideoCapture('rtsp://admin:eonboxseg2@192.168.1.100/H264?ch=1&subtype=0')
+        # agregar el codigo para mostrar el video en el video_frame
+        # video_frame poder ver el video en tiempo real
+        ret, frame=cap.read()
+        if ret:
+            frame=cv2.resize(frame,(640,350))
+            img = QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
+            pixmap = QPixmap.fromImage(img)
+            pixmap = pixmap.scaled(self.video_frame.size(), Qt.KeepAspectRatio)
+            #cv2.imshow('Capturing',frame)
+            
+            label = QLabel(self.video_frame)
+            label.setPixmap(pixmap)
+            label.setAlignment(Qt.AlignCenter)
+            label.setGeometry(0,0, self.video_frame.width(), self.video_frame.height())
+            label.show()
 
     def gotoHome(self):
         from home import MainUI 
@@ -115,4 +136,10 @@ if __name__ == "__main__":
     window = Monitor()
     window.show()
     app.exec_()
+
+
+    window = Monitor()
+    window.show()
+    app.exec_()
+    
     

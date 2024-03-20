@@ -18,7 +18,7 @@ class WarningSystem(QMainWindow):
         hbox_top.setSpacing(1)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))      
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))               
         logo_image_top_left.setScaledContents(True)
 
         logo_image_top_right = QLabel()
@@ -71,7 +71,7 @@ class WarningSystem(QMainWindow):
         frame_layout.addWidget(message_label)
 
         center_layout.addWidget(frame)
-        self.showFullScreen()
+        
 
     def gotoHome(self):
         from home import MainUI 

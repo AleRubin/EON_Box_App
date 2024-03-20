@@ -19,7 +19,7 @@ class AdvancedWizard(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))                  
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
@@ -130,7 +130,7 @@ class AdvancedWizard(QMainWindow):
 
         next_button.clicked.connect(self.next_button_on_click)
         cancel_button.clicked.connect(self.cancel_button_on_click)
-        self.showFullScreen()
+        
 
     def back_button_on_click(self):
         from wizzard import Wizard1Window

@@ -23,7 +23,7 @@ class LoginWindow(QMainWindow):
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))      
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))               
         logo_image_top_left.setScaledContents(True)
 
         logo_image_top_right = QLabel()
@@ -80,7 +80,7 @@ class LoginWindow(QMainWindow):
         central_layout.addStretch(1)
         central_widget.setLayout(central_layout)
 
-        self.showFullScreen()
+        
 
     def on_numpad_button_click(self, text,password_field):
         password_field.setText(password_field.text() + text)

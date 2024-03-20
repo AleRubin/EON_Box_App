@@ -170,7 +170,7 @@ class Armado(QMainWindow):
         main_layout.addLayout(central_layout)
         main_layout.addStretch(1)
         # main_layout.addStretch(1)
-        self.showFullScreen()
+        
 
     def gotoHome(self):
         from home import MainUI

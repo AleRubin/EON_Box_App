@@ -25,7 +25,7 @@ class MovilUserWindow(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))  
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))           
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
@@ -104,7 +104,7 @@ class MovilUserWindow(QMainWindow):
         central_layout.addLayout(hbox_bottom)
 
         next_button.clicked.connect(self.gotoLogin)
-        self.showFullScreen()
+        
 
     def gotoLogin(self):
         self.login = LoginWindow()

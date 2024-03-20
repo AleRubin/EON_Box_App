@@ -27,7 +27,7 @@ class UserWizard(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
+            logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))                  
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
@@ -143,7 +143,7 @@ class UserWizard(QMainWindow):
         central_layout = QVBoxLayout(central_widget)
         central_layout.addLayout(hbox_top)
         central_layout.addLayout(vbox_center)
-        self.showFullScreen()
+        
 
     def on_numpad_button_click(self, text):
         self.password_edit.setText(self.password_edit.text() + text)

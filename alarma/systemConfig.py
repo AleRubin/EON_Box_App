@@ -18,7 +18,7 @@ class SystemConfig(QMainWindow):
         hbox_top.setSpacing(1)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))                  
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
@@ -89,7 +89,7 @@ class SystemConfig(QMainWindow):
 
             grid_layout.addWidget(button, row, column)
         main_layout.addStretch(1)
-        self.showFullScreen()
+        
     
     def gotoHome(self):
         from home import MainUI

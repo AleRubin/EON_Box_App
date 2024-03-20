@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))  
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))           
         logo_image_top_left.setScaledContents(True)
 
         logo_image_top_right = QLabel()
@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         central_layout.addLayout(vbox_center)
         logo_image_center.mousePressEvent = self.switch_to_new_screen
 
-        self.showFullScreen()
+        
 
 
     def switch_to_new_screen(self, event):
