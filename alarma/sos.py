@@ -6,7 +6,7 @@ class Sos(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0,1024,570)
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
     
         main_widget = QWidget()
@@ -18,7 +18,7 @@ class Sos(QMainWindow):
         hbox_top.setSpacing(1)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))      
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))               
         logo_image_top_left.setScaledContents(True)
 
         logo_image_top_right = QLabel()
@@ -76,7 +76,7 @@ class Sos(QMainWindow):
         center_layout.addLayout(central_layout)
         center_layout.addItem(QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
         main_layout.addLayout(center_layout)
-        self.showFullScreen()
+        
 
     def gotoHome(self):
         from home import MainUI

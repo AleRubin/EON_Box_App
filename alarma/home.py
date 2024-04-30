@@ -129,7 +129,6 @@ class MainUI(QMainWindow):
             button.setStyleSheet("background-color: rgba(38,64,67,255);")
             button.clicked.connect(item["action"])
             bottom_grid2.addWidget(button)
-        self.showFullScreen()
 
     def gotoArmadoDesarmado(self):
         self.armado = Armado()

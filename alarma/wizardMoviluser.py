@@ -3,13 +3,21 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWid
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from wizzard1 import LoginWindow
+import sqlite3
+import qrcode
+from io import BytesIO
+connection = sqlite3.connect("alarma.db")
+cursor = connection.cursor()
 
 class MovilUserWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        cursor.execute('SELECT * FROM cuenta')
+        data = cursor.fetchone()
+        user_id = data[1]
         self.setWindowTitle("Configuración de usuario")
-        self.setGeometry(0, 0, 1920, 1080)
+        self.setGeometry(0, 0,1024,600)
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
         hbox_top = QHBoxLayout()
@@ -18,7 +26,7 @@ class MovilUserWindow(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))  
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))           
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
@@ -52,13 +60,20 @@ class MovilUserWindow(QMainWindow):
         user_label.setMaximumSize(60, 50)
         grid.addWidget(user_label, 0, 0)
 
-        user_id = QLineEdit()
-        user_id.setStyleSheet("font-size: 1.5em; background-color: white; color: black;")
-        user_id.setMaximumSize(300, 50)
-        grid.addWidget(user_id, 0, 1)
-
+        usuario_id = QLineEdit()
+        usuario_id.setStyleSheet("font-size: 1.5em; background-color: white; color: black;")
+        usuario_id.setMaximumSize(300, 50)
+        usuario_id.setText(user_id)
+        usuario_id.setReadOnly(True)
+        grid.addWidget(usuario_id, 0, 1)
+        qr_code = qrcode.make(data[2])
+        buffer = BytesIO()
+        qr_code.save(buffer,format='PNG')
+        image_data = buffer.getvalue()
+        pixmap = QPixmap()
+        pixmap.loadFromData(image_data)
         qr_image = QLabel()
-        qr_image.setPixmap(QPixmap("images/qrcode.png").scaledToWidth(200).scaledToHeight(150))  
+        qr_image.setPixmap(pixmap.scaledToWidth(200).scaledToHeight(150))  
         qr_image.setScaledContents(False)
         qr_image.setAlignment(Qt.AlignCenter)
         grid.addWidget(qr_image, 1, 1)
@@ -95,7 +110,7 @@ class MovilUserWindow(QMainWindow):
         central_layout.addLayout(hbox_bottom)
 
         next_button.clicked.connect(self.gotoLogin)
-        self.showFullScreen()
+        
 
     def gotoLogin(self):
         self.login = LoginWindow()

@@ -6,7 +6,7 @@ class SystemConfig(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1024, 600)
+        self.setGeometry(0, 0, 1024, 570)
         self.setStyleSheet("background-color: rgba(38,64,67,255); color: white;")
 
         main_widget = QWidget()
@@ -18,7 +18,7 @@ class SystemConfig(QMainWindow):
         hbox_top.setSpacing(1)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))         
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
         logo_image_top_left.setScaledContents(True)
         logo_image_top_right = QLabel()
         logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
@@ -69,11 +69,11 @@ class SystemConfig(QMainWindow):
 
         for url, label_text, row, column, function in buttons_info:
             button = QPushButton()
-            button.setStyleSheet("background-color: rgb(77, 128, 119); color: white; font-size: 20px;")
-            button.setFixedSize(200, 200)
+            button.setStyleSheet("background-color: rgb(77, 128, 119); color: white; font-size: 11px;")
+            button.setFixedSize(int(400*0.55), int(400*0.55))
 
             icon_label = QLabel()
-            icon_label.setPixmap(QPixmap(url).scaledToWidth(150))  
+            icon_label.setPixmap(QPixmap(url).scaledToWidth(int(150*0.55)))  
             icon_label.setAlignment(Qt.AlignCenter)
             text_label = QLabel(label_text)
             text_label.setAlignment(Qt.AlignCenter)
@@ -89,7 +89,7 @@ class SystemConfig(QMainWindow):
 
             grid_layout.addWidget(button, row, column)
         main_layout.addStretch(1)
-        self.showFullScreen()
+        # self.showFullScreen()
     
     def gotoHome(self):
         from home import MainUI

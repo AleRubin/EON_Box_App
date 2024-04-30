@@ -65,7 +65,7 @@ class Monitor(QMainWindow):
         button_monitor_interior.setIcon(QIcon("images/camara_interior.png"))
         button_monitor_interior.setIconSize(QSize(200, 200))
         button_monitor_interior.setStyleSheet("background-color: rgb(77, 128, 119); color: white;")
-        button_monitor_exterior.clicked.connect(self.activeCamera)
+        button_monitor_exterior.clicked.connect(self.activeCamera2)
         center_layout.addWidget(button_monitor_interior)
 
         right_layout = QVBoxLayout()
@@ -78,13 +78,29 @@ class Monitor(QMainWindow):
         self.video_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         right_layout.addWidget(self.video_frame)
         self.timer = QTimer()
-        self.timer.timeout.connect(self.activeCamera)
+        self.timer.timeout.connect(self.activeCamera2)
         self.timer.start(30)
         main_layout.addLayout(central_layout)
         self.showFullScreen()
 
-    def activeCamera(self):
-        cap = cv2.VideoCapture('rtsp://admin:eonboxseg1@192.168.1.249/H264?ch=1&subtype=0')
+    def activeCamera(self): # camara Exterior
+        cap1 = cv2.VideoCapture('rtsp://admin:eonboxseg1@192.168.1.98/H264?ch=1&subtype=0')
+        ret1, frame1=cap1.read()
+        if ret1:
+            frame1=cv2.resize(frame1,(640,350))
+            img1 = QImage(frame1, frame1.shape[1], frame1.shape[0], QImage.Format_RGB888)
+            pixmap1 = QPixmap.fromImage(img1)
+            pixmap1 = pixmap1.scaled(self.video_frame.size(), Qt.KeepAspectRatio)
+            #cv2.imshow('Capturing',frame)
+            
+            label = QLabel(self.video_frame)
+            label.setPixmap(pixmap1)
+            label.setAlignment(Qt.AlignCenter)
+            label.setGeometry(0,0, self.video_frame.width(), self.video_frame.height())
+            label.show()
+
+    def activeCamera2(self):
+        cap = cv2.VideoCapture('rtsp://admin:eonboxseg1@192.168.1.115/H264?ch=1&subtype=0')
         # agregar el codigo para mostrar el video en el video_frame
         # video_frame poder ver el video en tiempo real
         ret, frame=cap.read()
@@ -100,9 +116,6 @@ class Monitor(QMainWindow):
             label.setAlignment(Qt.AlignCenter)
             label.setGeometry(0,0, self.video_frame.width(), self.video_frame.height())
             label.show()
-     
-
-    
 
     def gotoHome(self):
         from home import MainUI 

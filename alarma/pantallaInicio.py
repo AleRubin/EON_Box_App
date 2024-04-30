@@ -9,7 +9,7 @@ class InicioWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Pantalla de Inicio")
-        self.setGeometry(0, 0, 1024, 600)
+        self.setGeometry(0, 0,1024,600)
 
         self.setStyleSheet("background-color: rgba(38,64,67,255);")
 
@@ -19,7 +19,7 @@ class InicioWindow(QMainWindow):
         hbox_top.setSpacing(10)
 
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))      
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))               
         logo_image_top_left.setScaledContents(True)
 
         logo_image_top_right = QLabel()
@@ -57,7 +57,7 @@ class InicioWindow(QMainWindow):
         central_layout = QVBoxLayout(central_widget)
         central_layout.addLayout(hbox_top)
         central_layout.addLayout(vbox_center)
-        self.showFullScreen()
+        
 
     def on_hello_button_click(self):
         self.wizard1_window = Wizard1Window()

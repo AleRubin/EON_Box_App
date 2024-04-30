@@ -5,9 +5,17 @@ from PyQt5.QtCore import Qt
 from advancedWizard import AdvancedWizard
 from user_wizard import UserWizard
 import wifi 
+import requests
+import json 
+import sqlite3
+connection = sqlite3.connect("alarma.db")
+cursor = connection.cursor()
+
 class Wizard1Window(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        cursor.execute("CREATE TABLE IF NOT EXISTS cuenta (id INTEGER, id_nube TEXT, mac TEXT, identificador TEXT, nombre TEXT, pin TEXT, fk_idCatEstatusDispositivo INT, fk_idCatProveedorServicio INT, fechaRegistro INT, catEstatusDispositivo TEXT, catProveedorServicio TEXT)")
 
         self.setWindowTitle("Asistente de Configuración")
         self.setGeometry(0, 0,1024,600)
@@ -26,15 +34,15 @@ class Wizard1Window(QMainWindow):
         scroll_area.setWidgetResizable(True)
 
         scroll_layout = QVBoxLayout(scroll_content)
-        scroll_layout.setAlignment(Qt.AlignCenter)
+        scroll_layout.setAlignment(Qt.AlignCenter | Qt.AlignTop)
 
         hbox_top = QHBoxLayout()
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
-        hbox_top.setSpacing(10)
+        #hbox_top.setSpacing(10)
         
         
         logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))         
+        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))                  
         logo_image_top_left.setScaledContents(True)
         
         logo_image_top_right = QLabel()
@@ -43,7 +51,7 @@ class Wizard1Window(QMainWindow):
 
         hbox_top.addWidget(logo_image_top_left)
         hbox_top.addWidget(logo_image_top_right)
-        hbox_top.addStretch(1)
+        #hbox_top.addStretch(1)
 
         scroll_layout.addLayout(hbox_top)
 
@@ -65,7 +73,7 @@ class Wizard1Window(QMainWindow):
         grid.addWidget(network_label, 0, 0)
 
         self.network_combo = QComboBox()
-        #self.network_combo.addItems(["Red 1", "Red 2", "Red 3"])
+        self.network_combo.addItems(["Red 1", "Red 2", "Red 3"])
         self.network_combo.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
         self.network_combo.setMaximumWidth(300)
         self.network_combo.setMaximumHeight(70)
@@ -149,9 +157,23 @@ class Wizard1Window(QMainWindow):
 
         self.populate_networks()
 
-        self.showFullScreen()
+        
 
     def next_button_on_click(self):
+        # get https://anam.eonproduccion.net:9001/alarmas/api/dispositivo/mac/b8:27:eb:6a:7b:4c
+
+        response = requests.get('https://anam.eonproduccion.net:9001/alarmas/api/dispositivo/mac/b8:27:eb:6a:7b:4c')
+        response = json.loads(response.text)
+        response = response['data'][0]
+
+        response['catEstatusDispositivo'] = json.dumps(response['catEstatusDispositivo'])
+        response['catProveedorServicio'] = json.dumps(response['catProveedorServicio'])
+        cursor.execute("INSERT INTO cuenta (id, id_nube, mac, identificador, nombre, pin, fk_idCatEstatusDispositivo, fk_idCatProveedorServicio, fechaRegistro, catEstatusDispositivo, catProveedorServicio) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
+                       (1, response['id'], response['mac'], response['identificador'], response['nombre'], response['pin'], response['fk_idCatEstatusDispositivo'], response['fk_idCatProveedorServicio'], response['fechaRegistro'], 
+                        response['catEstatusDispositivo'], 
+                        response['catProveedorServicio']))
+        
+        connection.commit()
         self.wizard1_window = UserWizard()
         self.wizard1_window.show()
         self.hide()
@@ -169,8 +191,7 @@ class Wizard1Window(QMainWindow):
 
         # Agregar los nombres de las redes al QComboBox
         for network in networks:
-            if network.ssid:
-                self.network_combo.addItem(network.ssid)
+          self.network_combo.addItem(network.ssid)
 
     def show_password_on_click(self):
         if self.show_password.isChecked():
