@@ -90,6 +90,11 @@ class LoginWindow(QMainWindow):
         data = cursor.fetchone()
         password = data[5]
 
+        if len(password) == 0:
+            self.home = MainUI()
+            self.home.show()
+            self.close()
+
         if password_field.text() == password:
             self.home = MainUI()
             self.home.show()
