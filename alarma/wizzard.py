@@ -162,16 +162,18 @@ class Wizard1Window(QMainWindow):
     def next_button_on_click(self):
         # get https://anam.eonproduccion.net:9001/alarmas/api/dispositivo/mac/b8:27:eb:6a:7b:4c
 
-        response = requests.get('https://anam.eonproduccion.net:9001/alarmas/api/dispositivo/mac/b8:27:eb:6a:7b:4c')
+        response = requests.get('https://cloudsecurity-api.eonproduccion.net/api/cajas/mac/b8:27:eb:6a:7b:4c')
         response = json.loads(response.text)
         response = response['data'][0]
 
-        response['catEstatusDispositivo'] = json.dumps(response['catEstatusDispositivo'])
         response['catProveedorServicio'] = json.dumps(response['catProveedorServicio'])
         cursor.execute("INSERT INTO cuenta (id, id_nube, mac, identificador, nombre, pin, fk_idCatEstatusDispositivo, fk_idCatProveedorServicio, fechaRegistro, catEstatusDispositivo, catProveedorServicio) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
-                       (1, response['id'], response['mac'], response['identificador'], response['nombre'], response['pin'], response['fk_idCatEstatusDispositivo'], response['fk_idCatProveedorServicio'], response['fechaRegistro'], 
-                        response['catEstatusDispositivo'], 
-                        response['catProveedorServicio']))
+                       (1, 
+                        response['id'], response['mac'], response['identificador'], 
+                        response['nombre'], response['pin'], response['id_estatus_dispositivo'], 
+                        response['id_proveedor_servicio'], response['fechaRegistro'], 
+                        response['id_estatus_dispositivo'], 
+                        response['id_proveedor_servicio']))
         
         connection.commit()
         self.wizard1_window = UserWizard()
