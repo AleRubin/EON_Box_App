@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem, QHBoxLayout, QPushButton
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QColor, QPixmap, QIcon
+import requests
 
 class Alertas(QMainWindow):
     def __init__(self):
@@ -63,34 +64,28 @@ class Alertas(QMainWindow):
         vbox.addWidget(label)
 
         table = QTableWidget()
-        table.setColumnCount(6)
-        table.setHorizontalHeaderLabels(["No.", "Nom. de alarma", "Horario", "Tipo", "Duración", "Acciones"])
+        table.setColumnCount(5)
+        table.setHorizontalHeaderLabels(["id", "estado", "fecha", "activo", "id_componente"])
         table.setStyleSheet("background-color: rgba(255,255,255,255); color: black; border-radius: 10px;")
 
         # Establecer el tamaño de las columnas
-        table.setColumnWidth(0, 50)  # No.
-        table.setColumnWidth(1, 200)  # Nom. de alarma
-        table.setColumnWidth(2, 100)  # Horario
-        table.setColumnWidth(3, 150)  # Tipo
-        table.setColumnWidth(4, 100)  # Duración
+        table.setColumnWidth(0, 50)
+        table.setColumnWidth(1, 200)
+        table.setColumnWidth(2, 300)
+        table.setColumnWidth(3, 150)
+        table.setColumnWidth(4, 150)
         table.horizontalHeader().setStretchLastSection(True)  
         
-        data = [
-            ("1", "Alarma 1", "10:00", "Tipo 1", "10 min", "Acción 1"),
-            ("2", "Alarma 2", "11:00", "Tipo 2", "15 min", "Acción 2"),
-            ("3", "Alarma 3", "12:00", "Tipo 3", "20 min", "Acción 3")
-        ]
+        data = requests.get("https://cloudsecurity-api.eonproduccion.net/api/log_componentes/2").json()
+        data = data["data"]
         for row, rowData in enumerate(data):
-            table.insertRow(row)  
-            for col, value in enumerate(rowData):
-                item = QTableWidgetItem(value)
-                item.setTextAlignment(Qt.AlignCenter)
-                table.setItem(row, col, item)
-
-            if row % 2 == 0:
-                for col in range(table.columnCount()):
-                    table.item(row, col).setBackground(QColor(200, 200, 200))  
-
+            table.insertRow(row)
+            for col, value in enumerate(rowData.items()):
+                table.setItem(row, col, QTableWidgetItem(str(value[1])))
+                # center text
+                table.item(row, col).setTextAlignment(Qt.AlignCenter)
+                
+                
         vbox.addWidget(table)
         
 
@@ -108,7 +103,7 @@ class Alertas(QMainWindow):
         self.hide()
 
 
-if __name__ == "__main__":
+if __name__ == "_main_":
     app = QApplication([])
     window = Alertas()
     window.show()
