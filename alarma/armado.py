@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QFrame
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtCore import Qt, QSize, QThread, pyqtSignal
+import requests
+import datetime as dt
 
 class Armado(QMainWindow):
     def __init__(self):
@@ -169,12 +171,21 @@ class Armado(QMainWindow):
             print("Info")
     
     def update_ui(self, state):
+        estado = 1
+        identificador = ""
         if state == 0:
             for i in range(1, 4):
                 self.findChild(QPushButton, f"Sensor magnético {i}").setText("Desconectado")
+            estado = 0
+            identificador = f"Sensor magnético 1 desconectado"
         else:
             for i in range(1, 4):
                 self.findChild(QPushButton, f"Sensor magnético {i}").setText("Conectado")
+            identificador = f"Sensor magnético 1 conectado"    
+                
+        requests.post("'https://cloudsecurity-api.eonproduccion.net/api/log_componentes/", 
+                      data={"id": 1, "estado": 1, "fecha": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "activo": 1, "id_componente":0})
+        requests.patch("https://cloudsecurity-api.eonproduccion.net/api/componentes/1", data={"estado": estado, "identificador": identificador})
             
 class SensorUpdater(QThread):
     signal = pyqtSignal(int)
