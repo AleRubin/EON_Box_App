@@ -202,9 +202,9 @@ class SensorUpdater(QThread):
                 door_state = data[27]
                 door_state_2 = data[25] << 8 | data[26]
                 if door_state == 0 and door_state_2 == 43690:
-                    self.update_signal.emit(0)  # Señal de que la puerta está cerrada
+                    self.signal.emit(0)  # Señal de que la puerta está cerrada
                 else:
-                    self.update_signal.emit(1)  # Señal de que la puerta está abierta
+                    self.signal.emit(1)  # Señal de que la puerta está abierta
         except ConnectionRefusedError:
             print('No se pudo conectar al sensor')
         except Exception as e:
