@@ -3,16 +3,11 @@ from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QColor, QPixmap, QIcon
 import requests
 
-class Alertas(QMainWindow):
-    def __init__(self):
+class Alertas(QWidget):
+    def __init__(self, app_state):
         super().__init__()
-        self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0,1024,570)
-        self.setStyleSheet("background-color: rgba(38,64,67,255); color: white;")
 
-        main_widget = QWidget()
-        self.setCentralWidget(main_widget)
-        main_layout = QVBoxLayout(main_widget)
+        main_layout = QVBoxLayout()
         hbox_top = QHBoxLayout()
 
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
@@ -41,7 +36,7 @@ class Alertas(QMainWindow):
         button_home.setIcon(QIcon("images/home.png"))
         button_home.setIconSize(QSize(50, 50))
         button_home.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_home.clicked.connect(self.gotoHome)
+        button_home.clicked.connect(lambda: self.gotoHome(app_state))
         left_layout.addWidget(button_home)
 
         # Botón de Info
@@ -49,7 +44,7 @@ class Alertas(QMainWindow):
         button_info.setIcon(QIcon("images/info.png"))
         button_info.setIconSize(QSize(50, 50))
         button_info.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_info.clicked.connect(self.gotoInfo)
+        button_info.clicked.connect(lambda: self.gotoInfo(app_state))
         left_layout.addWidget(button_info)
         vbox = QVBoxLayout()
         vbox.setAlignment(Qt.AlignCenter)
@@ -87,24 +82,12 @@ class Alertas(QMainWindow):
                 
                 
         vbox.addWidget(table)
+        self.setLayout(main_layout)
         
 
 
-    def gotoHome(self):
-        from home import MainUI
-        self.window = MainUI()
-        self.window.show()
-        self.hide()
+    def gotoHome(self, app_state):
+        app_state.set_stack(5)
 
-    def gotoInfo(self):
-        from info import Info
-        self.window = Info()
-        self.window.show()
-        self.hide()
-
-
-if __name__ == "_main_":
-    app = QApplication([])
-    window = Alertas()
-    window.show()
-    app.exec_()
+    def gotoInfo(self, app_state):
+        app_state.set_stack(8)

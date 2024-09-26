@@ -1,155 +1,121 @@
 import sys 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QLineEdit, QComboBox, QRadioButton
+from PyQt5.QtWidgets import QScrollArea, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QLineEdit, QComboBox, QRadioButton
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from user_wizard import UserWizard
-# from wizzard import Wizard1Window
-class AdvancedWizard(QMainWindow):
-    def __init__(self):
+
+class AdvancedWizard(QWidget):
+    def __init__(self, app_state):
         super().__init__()
 
-        self.setWindowTitle("Asistente de Configuración")
-        self.setGeometry(0, 0,1024,600)
+        self.vbox_center = QVBoxLayout()
+        self.vbox_center.setAlignment(Qt.AlignTop)
+        self.vbox_center.setSpacing(20)
 
-        self.setStyleSheet("background-color: rgba(38,64,67,255);")
-        
-        hbox_top = QHBoxLayout()
+        self.welcome_label = QLabel("Configuración avanzada de zona Wifi")
+        self.welcome_label.setStyleSheet("color: white; font-size: 40px; font-weight: bold;")
+        self.welcome_label.setAlignment(Qt.AlignCenter)
+        self.welcome_label.setContentsMargins(0, 50, 0, 20)
 
-        hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
-        hbox_top.setSpacing(10)
+        self.grid = QGridLayout()
+        self.grid.setAlignment(Qt.AlignCenter)
+        self.grid.setSpacing(10)
+        self.grid.setColumnStretch(0, 1)
+        self.grid.setColumnStretch(1, 1)
+        self.grid.setRowStretch(0, 1)
+        self.grid.setRowStretch(1, 1)
+        self.grid.setRowStretch(2, 1)
+        self.grid.setRowStretch(3, 1)
+        self.grid.setRowStretch(4, 1)
 
-        logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(20).scaledToHeight(20))                  
-        logo_image_top_left.setScaledContents(True)
-        logo_image_top_right = QLabel()
-        logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
-        logo_image_top_right.setScaledContents(True)
+        self.network_label = QLabel("IP")
+        self.network_label.setStyleSheet("color: white; font-size: 20px;")
+        self.network_label.setMaximumSize(200, 50)
+        self.grid.addWidget(self.network_label, 0, 0)
+        self.network_field = QLineEdit()
+        self.grid.addWidget(self.network_field, 0, 1)
+        self.network_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
+        self.network_field.setMaximumHeight(70)
+        self.network_field.setMaximumWidth(300)
+        self.network_field.setPlaceholderText("Ingrese una dirección IP")
+        self.security_label = QLabel("Netmask")
+        self.security_label.setStyleSheet("color: white; font-size: 20px;")
+        self.security_label.setMaximumSize(200, 50)
+        self.grid.addWidget(self.security_label, 1, 0)
+        self.security_field = QLineEdit()
+        self.grid.addWidget(self.security_field, 1, 1)
+        self.security_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
+        self.security_field.setMaximumSize(300, 50)
+        self.security_field.setPlaceholderText("Ingrese una máscara de red")
 
-        hbox_top.addWidget(logo_image_top_left)
-        hbox_top.addWidget(logo_image_top_right)
-        hbox_top.addStretch(1)
+        self.password_label = QLabel("DNS Server")
+        self.password_label.setStyleSheet("color: white; font-size: 20px;")
+        self.password_label.setMaximumSize(200, 50)
+        self.grid.addWidget(self.password_label, 2, 0)
+        self.password_field = QLineEdit()
+        self.grid.addWidget(self.password_field, 2, 1)
+        self.password_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
+        self.password_field.setPlaceholderText("Ingrese una dirección DNS")
+        self.password_field.setMaximumSize(300, 50)
 
-        vbox_center = QVBoxLayout()
-        vbox_center.setAlignment(Qt.AlignTop)
-        vbox_center.setSpacing(20)
+        self.band_label = QLabel("IP Gateway")
+        self.band_label.setStyleSheet("color: white; font-size: 20px;")
+        self.band_label.setMaximumSize(200, 50)
+        self.grid.addWidget(self.band_label, 4, 0)
+        self.band_field = QLineEdit()
+        self.grid.addWidget(self.band_field, 4, 1)
+        self.band_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
+        self.band_field.setMaximumSize(300, 50)
+        self.band_field.setPlaceholderText("Ingrese una dirección de puerta de enlace")
+        self.grid.setRowMinimumHeight(0, 40)
+        self.grid.setRowMinimumHeight(1, 40)
+        self.grid.setRowMinimumHeight(2, 40)
+        self.grid.setRowMinimumHeight(3, 40)
+        self.grid.setRowMinimumHeight(4, 40)
 
-        welcome_label = QLabel("Configuración avanzada de zona Wifi")
-        welcome_label.setStyleSheet("color: white; font-size: 40px; font-weight: bold;")
-        welcome_label.setAlignment(Qt.AlignCenter)
-        welcome_label.setContentsMargins(0, 50, 0, 20)
+        # self.vbox_center.addStretch(1)
+        self.vbox_center.addWidget(self.welcome_label)
+        self.vbox_center.addStretch(1)
+        self.vbox_center.addLayout(self.grid)
+        self.vbox_center.addStretch(1)
 
-        grid = QGridLayout()
-        grid.setAlignment(Qt.AlignCenter)
-        grid.setSpacing(10)
-        grid.setColumnStretch(0, 1)
-        grid.setColumnStretch(1, 1)
-        grid.setRowStretch(0, 1)
-        grid.setRowStretch(1, 1)
-        grid.setRowStretch(2, 1)
-        grid.setRowStretch(3, 1)
-        grid.setRowStretch(4, 1)
+        self.hbox_bottom = QHBoxLayout()
+        self.hbox_bottom.setAlignment(Qt.AlignCenter)
 
-        network_label = QLabel("IP")
-        network_label.setStyleSheet("color: white; font-size: 20px;")
-        network_label.setMaximumSize(200, 50)
-        grid.addWidget(network_label, 0, 0)
-        network_field = QLineEdit()
-        grid.addWidget(network_field, 0, 1)
-        network_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
-        network_field.setMaximumHeight(70)
-        network_field.setMaximumWidth(300)
-        network_field.setPlaceholderText("Ingrese una dirección IP")
-        security_label = QLabel("Netmask")
-        security_label.setStyleSheet("color: white; font-size: 20px;")
-        security_label.setMaximumSize(200, 50)
-        grid.addWidget(security_label, 1, 0)
-        security_field = QLineEdit()
-        grid.addWidget(security_field, 1, 1)
-        security_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
-        security_field.setMaximumSize(300, 50)
-        security_field.setPlaceholderText("Ingrese una máscara de red")
+        self.hbox_bottom.setSpacing(10)
 
-        password_label = QLabel("DNS Server")
-        password_label.setStyleSheet("color: white; font-size: 20px;")
-        password_label.setMaximumSize(200, 50)
-        grid.addWidget(password_label, 2, 0)
-        password_field = QLineEdit()
-        grid.addWidget(password_field, 2, 1)
-        password_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
-        password_field.setPlaceholderText("Ingrese una dirección DNS")
-        password_field.setMaximumSize(300, 50)
-
-        band_label = QLabel("IP Gateway")
-        band_label.setStyleSheet("color: white; font-size: 20px;")
-        band_label.setMaximumSize(200, 50)
-        grid.addWidget(band_label, 4, 0)
-        band_field = QLineEdit()
-        grid.addWidget(band_field, 4, 1)
-        band_field.setStyleSheet("color: black; font-size: 1.5em; background-color: white;")
-        band_field.setMaximumSize(300, 50)
-        band_field.setPlaceholderText("Ingrese una dirección de puerta de enlace")
-        grid.setRowMinimumHeight(0, 40)
-        grid.setRowMinimumHeight(1, 40)
-        grid.setRowMinimumHeight(2, 40)
-        grid.setRowMinimumHeight(3, 40)
-        grid.setRowMinimumHeight(4, 40)
-
-        # vbox_center.addStretch(1)
-        vbox_center.addWidget(welcome_label)
-        vbox_center.addStretch(1)
-        vbox_center.addLayout(grid)
-        vbox_center.addStretch(1)
-
-        hbox_bottom = QHBoxLayout()
-        hbox_bottom.setAlignment(Qt.AlignCenter)
-
-        hbox_bottom.setSpacing(10)
-
-        back_button = QPushButton("Regresar")
-        back_button.setStyleSheet("background-color: #3498db; color: white; font-size: 1em; font-weight: bold; padding: 10px 20px;")
-        back_button.clicked.connect(self.back_button_on_click)
-        hbox_bottom.addWidget(back_button)
+        self.back_button = QPushButton("Regresar")
+        self.back_button.setStyleSheet("background-color: #3498db; color: white; font-size: 1em; font-weight: bold; padding: 10px 20px;")
+        self.back_button.clicked.connect(lambda: self.back_button_on_click(app_state))
+        self.hbox_bottom.addWidget(self.back_button)
 
 
-        next_button = QPushButton("Siguiente")
-        next_button.setStyleSheet("background-color: #2ecc71; color: white; font-size: 1em; font-weight: bold; padding: 10px 20px;")
-        hbox_bottom.addWidget(next_button)
+        self.next_button = QPushButton("Siguiente")
+        self.next_button.setStyleSheet("background-color: #2ecc71; color: white; font-size: 1em; font-weight: bold; padding: 10px 20px;")
+        self.next_button.clicked.connect(lambda: self.next_button_on_click(app_state))
+        self.hbox_bottom.addWidget(self.next_button)
 
-        cancel_button = QPushButton("Cancelar")
-        cancel_button.setStyleSheet("background-color: #e74c3c; color: white; font-size: 1em; font-weight: bold; padding: 10px 20px;")
-        cancel_button.clicked.connect(self.cancel_button_on_click)
-        hbox_bottom.addWidget(cancel_button)
+        self.cancel_button = QPushButton("Cancelar")
+        self.cancel_button.setStyleSheet("background-color: #e74c3c; color: white; font-size: 1em; font-weight: bold; padding: 10px 20px;")
+        self.cancel_button.clicked.connect(lambda: self.cancel_button_on_click(app_state))
+        self.hbox_bottom.addWidget(self.cancel_button)
 
-        vbox_center.addLayout(hbox_bottom)
+        self.vbox_center.addLayout(self.hbox_bottom)
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        central_layout = QVBoxLayout(central_widget)
-        central_layout.addLayout(hbox_top)
-        central_layout.addLayout(vbox_center)
+        self.central_layout = QVBoxLayout()
+        self.central_layout.addLayout(self.vbox_center)
 
-        next_button.clicked.connect(self.next_button_on_click)
-        cancel_button.clicked.connect(self.cancel_button_on_click)
+        self.setLayout(self.central_layout)
         
 
-    def back_button_on_click(self):
-        from wizzard import Wizard1Window
-        self.wizard1 = Wizard1Window()
-        self.wizard1.show()
-        self.close()
+    def back_button_on_click(self, app_state):
+        indice_actual = app_state.get_stack()
+        app_state.set_stack(indice_actual - 1)
 
-    def next_button_on_click(self):
-        self.user_wizard = UserWizard()
-        self.user_wizard.show()
-        self.close()
+    def next_button_on_click(self, app_state):
+        indice_actual = app_state.get_stack()
+        app_state.set_stack(indice_actual + 1)
 
-    def cancel_button_on_click(self):
-        self.close()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = AdvancedWizard()
-    window.show()
-    sys.exit(app.exec_())
-        
+    def cancel_button_on_click(self, app_state):
+        indice_actual = app_state.get_stack()
+        app_state.set_stack(indice_actual - 1)

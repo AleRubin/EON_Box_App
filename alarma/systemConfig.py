@@ -2,16 +2,11 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPu
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QSize, Qt
 
-class SystemConfig(QMainWindow):
-    def __init__(self):
+class SystemConfig(QWidget):
+    def __init__(self, app_state):
         super().__init__()
-        self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1024, 570)
-        self.setStyleSheet("background-color: rgba(38,64,67,255); color: white;")
 
-        main_widget = QWidget()
-        self.setCentralWidget(main_widget)
-        main_layout = QVBoxLayout(main_widget)
+        main_layout = QVBoxLayout()
         hbox_top = QHBoxLayout()
 
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
@@ -40,7 +35,7 @@ class SystemConfig(QMainWindow):
         button_home.setIcon(QIcon("images/home.png"))
         button_home.setIconSize(QSize(50, 50))
         button_home.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_home.clicked.connect(self.gotoHome)
+        button_home.clicked.connect(lambda: self.gotoHome(app_state))
         left_layout.addWidget(button_home)
 
         # Botón de Info
@@ -48,7 +43,7 @@ class SystemConfig(QMainWindow):
         button_info.setIcon(QIcon("images/info.png"))
         button_info.setIconSize(QSize(50, 50))
         button_info.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_info.clicked.connect(self.gotoInfo)
+        button_info.clicked.connect(lambda: self.gotoInfo(app_state))
         left_layout.addWidget(button_info)
         central_layout.addStretch(1)
         grid_layout = QGridLayout()
@@ -89,19 +84,15 @@ class SystemConfig(QMainWindow):
 
             grid_layout.addWidget(button, row, column)
         main_layout.addStretch(1)
-        # self.showFullScreen()
+
+        self.setLayout(main_layout)
+
     
-    def gotoHome(self):
-        from home import MainUI
-        self.home = MainUI()
-        self.home.show()
-        self.close()
-    
-    def gotoInfo(self):
-        from info import Info
-        self.info = Info()
-        self.info.show()
-        self.close()
+    def gotoHome(self, app_state):
+        app_state.set_stack(5)
+
+    def gotoInfo(self, app_state):
+        app_state.set_stack(8)
 
     def gotoRetardo(self):
         print("Go to Retardo")
@@ -126,11 +117,3 @@ class SystemConfig(QMainWindow):
 
     def gotoApagarEquipo(self):
         print("Go to Apagar Equipo")
-
-    
-
-if __name__ == "__main__":
-    app = QApplication([])
-    window = SystemConfig()
-    window.show()
-    app.exec_()

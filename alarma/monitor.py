@@ -3,18 +3,13 @@ from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtCore import Qt, QSize, QTimer
 import cv2
 import subprocess
+from getmac import get_mac_address as gma
 
-class Monitor(QMainWindow):
-    def __init__(self):
+class Monitor(QWidget):
+    def __init__(self, app_state):
         super().__init__()
-        self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0, 1024, 600)
-        self.setStyleSheet(
-            "background-color: rgba(38,64,67,255); color: white;")
 
-        main_widget = QWidget()
-        self.setCentralWidget(main_widget)
-        main_layout = QVBoxLayout(main_widget)
+        main_layout = QVBoxLayout()
         hbox_top = QHBoxLayout()
 
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)
@@ -43,14 +38,14 @@ class Monitor(QMainWindow):
         button_home.setIcon(QIcon("images/home.png"))
         button_home.setIconSize(QSize(50, 50))
         button_home.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_home.clicked.connect(self.gotoHome)
+        button_home.clicked.connect(lambda: self.gotoHome(app_state))
         left_layout.addWidget(button_home)
 
         button_info = QPushButton()
         button_info.setIcon(QIcon("images/info.png"))
         button_info.setIconSize(QSize(50, 50))
         button_info.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_info.clicked.connect(self.gotoInfo)
+        button_info.clicked.connect(lambda: self.gotoInfo(app_state))
         left_layout.addWidget(button_info)
 
         center_layout = QVBoxLayout()
@@ -63,7 +58,7 @@ class Monitor(QMainWindow):
         button_monitor_exterior.setIconSize(QSize(200, 200))
         button_monitor_exterior.setStyleSheet(
             "background-color: rgb(77, 128, 119); color: white;")
-        button_monitor_exterior.clicked.connect(self.activeCamera)
+        button_monitor_exterior.clicked.connect(lambda: self.activeCamera())
         center_layout.addWidget(button_monitor_exterior)
 
         button_monitor_interior = QPushButton("Monitor interior")
@@ -71,7 +66,7 @@ class Monitor(QMainWindow):
         button_monitor_interior.setIconSize(QSize(200, 200))
         button_monitor_interior.setStyleSheet(
             "background-color: rgb(77, 128, 119); color: white;")
-        button_monitor_exterior.clicked.connect(self.activeCamera2)
+        button_monitor_exterior.clicked.connect(lambda: self.activeCamera2)
         center_layout.addWidget(button_monitor_interior)
 
         right_layout = QVBoxLayout()
@@ -84,13 +79,11 @@ class Monitor(QMainWindow):
         self.video_frame.setSizePolicy(
             QSizePolicy.Expanding, QSizePolicy.Expanding)
         right_layout.addWidget(self.video_frame)
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.activeCamera2)
-        self.timer.start(30)
         main_layout.addLayout(central_layout)
-        self.showFullScreen()
+        self.setLayout(main_layout)
 
     def activeCamera(self):  # camara Exterior
+        mac = gma()
         cap1 = cv2.VideoCapture(
             'rtsp://admin:eonboxseg1@192.168.1.98/H264?ch=1&subtype=0')
         command = [
@@ -115,7 +108,7 @@ class Monitor(QMainWindow):
             '-r', '30',
             '-g', '60',
             '-f', 'flv'
-            "rtmp://eonproduccion.net/live/interior/b8:27:eb:6a:7b:4c"
+            "rtmp://eonproduccion.net/live/interior/" + mac
         ]
         p = subprocess.Popen(command, stdin=subprocess.PIPE)
         ret1, frame1 = cap1.read()
@@ -138,6 +131,7 @@ class Monitor(QMainWindow):
             label.show()
 
     def activeCamera2(self):
+        mac = gma()
         cap = cv2.VideoCapture(
             'rtsp://admin:eonboxseg1@192.168.1.115/H264?ch=1&subtype=0')
         command = [
@@ -162,7 +156,7 @@ class Monitor(QMainWindow):
             '-r', '30',
             '-g', '60',
             '-f', 'flv'
-            "rtmp://eonproduccion.net/live/exterior/b8:27:eb:6a:7b:4c"
+            "rtmp://eonproduccion.net/live/exterior/" + mac
         ]
         p = subprocess.Popen(command, stdin=subprocess.PIPE)
         ret, frame = cap.read()
@@ -183,25 +177,8 @@ class Monitor(QMainWindow):
                               self.video_frame.height())
             label.show()
 
-    def gotoHome(self):
-        from home import MainUI
-        self.window = MainUI()
-        self.window.show()
-        self.hide()
+    def gotoHome(self, app_state):
+        app_state.set_stack(5)
 
-    def gotoInfo(self):
-        from info import Info
-        self.info = Info()
-        self.info.show()
-        self.hide()
-
-
-if __name__ == "__main__":
-    app = QApplication([])
-    window = Monitor()
-    window.show()
-    app.exec_()
-
-    window = Monitor()
-    window.show()
-    app.exec_()
+    def gotoInfo(self, app_state):
+        app_state.set_stack(8)

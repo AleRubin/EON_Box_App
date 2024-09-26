@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QGridLayout
-from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QGridLayout
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 import sys
 from home import MainUI
 from PyQt5 import QtWidgets
@@ -8,102 +8,103 @@ import sqlite3
 connection = sqlite3.connect("alarma.db")
 cursor = connection.cursor()
 
-class LoginWindow(QMainWindow):
-    def __init__(self):
+
+class LoginWindow(QWidget):
+    def __init__(self, app_state):
         super().__init__()
 
-        self.setWindowTitle("Teclado Numérico")
-        self.setGeometry(0, 0,1024,600)
-        self.setStyleSheet("background-color: rgba(38,64,67,255);")
+        self.central_widget = QWidget()
+        self.hbox_top = QHBoxLayout()
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        hbox_top = QHBoxLayout()
+        self.hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)
 
-        hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
+        self.logo_image_top_left = QLabel()
+        self.logo_image_top_left.setPixmap(
+            QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))
+        self.logo_image_top_left.setScaledContents(True)
 
-        logo_image_top_left = QLabel()
-        logo_image_top_left.setPixmap(QPixmap("images/logo.png").scaledToWidth(40).scaledToHeight(40))               
-        logo_image_top_left.setScaledContents(True)
+        self.logo_image_top_right = QLabel()
+        self.logo_image_top_right.setPixmap(
+            QPixmap("images/titulo.png").scaledToWidth(198))
+        self.logo_image_top_right.setScaledContents(True)
 
-        logo_image_top_right = QLabel()
-        logo_image_top_right.setPixmap(QPixmap("images/titulo.png").scaledToWidth(198))  
-        logo_image_top_right.setScaledContents(True)
+        self.hbox_top.addWidget(self.logo_image_top_left)
+        self.hbox_top.addWidget(self.logo_image_top_right)
 
-        hbox_top.addWidget(logo_image_top_left)
-        hbox_top.addWidget(logo_image_top_right)
+        self.welcome_label = QLabel("Ingrese su contraseña.")
+        self.welcome_label.setStyleSheet(
+            "color: white; font-size: 30px; font-weight: bold;")
+        self.welcome_label.setAlignment(Qt.AlignCenter)
+        self.welcome_label.setContentsMargins(0, 0, 0, 20)
 
-        welcome_label = QLabel("Ingrese su contraseña.")
-        welcome_label.setStyleSheet("color: white; font-size: 30px; font-weight: bold;")
-        welcome_label.setAlignment(Qt.AlignCenter)
-        welcome_label.setContentsMargins(0, 0, 0, 20)
-
-        central_layout = QVBoxLayout()
-        central_layout.setAlignment(Qt.AlignTop)
-        layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignCenter | Qt.AlignTop)
-        # layout.setContentsMargins(50, 50, 50, 50)
+        self.central_layout = QVBoxLayout()
+        self.central_layout.setAlignment(Qt.AlignTop)
+        self.layout = QVBoxLayout()
+        self.layout.setAlignment(Qt.AlignCenter | Qt.AlignTop)
+        # self.layout.setContentsMargins(50, 50, 50, 50)
        # password_label = QLabel("Ingrese su contraseña de acceso")
-        #password_label.setStyleSheet("font-size: 18px; color: #ffffff;")
-        #layout.addWidget(password_label)
+        # password_label.setStyleSheet("font-size: 18px; color: #ffffff;")
+        # self.layout.addWidget(password_label)
 
-        password_field = QLineEdit()
-        layout.addWidget(password_field)
-        password_field.setPlaceholderText("Contraseña")
-        password_field.setStyleSheet("color: #000; max-width: 300; height: 30px; font-size: 18px; background-color: #ffffff;")
-        password_field.setReadOnly(True)
+        self.password_field = QLineEdit()
+        self.layout.addWidget(self.password_field)
+        self.password_field.setPlaceholderText("Contraseña")
+        self.password_field.setStyleSheet(
+            "color: #000; max-width: 300; height: 30px; font-size: 18px; background-color: #ffffff;")
+        self.password_field.setReadOnly(True)
 
-        numpad_grid = QGridLayout()
-        numpad_grid.setHorizontalSpacing(10)
-        numpad_grid.setVerticalSpacing(10)
+        self.numpad_grid = QGridLayout()
+        self.numpad_grid.setHorizontalSpacing(10)
+        self.numpad_grid.setVerticalSpacing(10)
 
-        buttons = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", ""]
-        positions = [(i, j) for i in range(4) for j in range(3)]
+        self.buttons = ["1", "2", "3", "4", "5",
+                        "6", "7", "8", "9", "", "0", "C"]
+        self.positions = [(i, j) for i in range(4) for j in range(3)]
 
-        for position, button_text in zip(positions, buttons):
+        for position, button_text in zip(self.positions, self.buttons):
             if button_text:
                 button = QPushButton(button_text)
-                button.setStyleSheet("min-width: 50px; min-height: 50px; background-color: #000; color: #ffffff; font-size: 20px;")
-                button.clicked.connect(lambda _, text=button_text: self.on_numpad_button_click(text,password_field))
-                numpad_grid.addWidget(button, *position)
+                button.setStyleSheet(
+                    "min-width: 50px; min-height: 50px; background-color: #000; color: #ffffff; font-size: 20px;")
+                button.clicked.connect(lambda _, text=button_text: self.on_numpad_button_click(
+                    text, self.password_field))
+                self.numpad_grid.addWidget(button, *position)
 
-        layout.addLayout(numpad_grid)
+        self.layout.addLayout(self.numpad_grid)
 
-        login_button = QPushButton("Ingresar")
-        login_button.setStyleSheet("min-width: 120px; min-height: 50px; background-color: #388e3c; color: #ffffff;")
-        login_button.clicked.connect(lambda _, text=password_field.text(): self.login(text, password_field))
-        layout.addWidget(login_button)
-        central_layout.addLayout(hbox_top)
-        central_layout.addWidget(welcome_label)
-        #central_layout.addStretch(1)
-        central_layout.addLayout(layout)
-        #central_layout.addStretch(1)
-        central_widget.setLayout(central_layout)
+        self.login_button = QPushButton("Ingresar")
+        self.login_button.setStyleSheet(
+            "min-width: 120px; min-height: 50px; background-color: #388e3c; color: #ffffff;")
+        self.login_button.clicked.connect(
+            lambda _, text=self.password_field.text(): self.login(text, self.password_field, app_state))
+        self.layout.addWidget(self.login_button)
+        self.central_layout.addLayout(self.hbox_top)
+        self.central_layout.addWidget(self.welcome_label)
+        self.central_layout.addLayout(self.layout)
+        self.setLayout(self.central_layout)
 
-        
-
-    def on_numpad_button_click(self, text,password_field):
-        password_field.setText(password_field.text() + text)
-
-    def login(self,text, password_field):
-        cursor.execute('SELECT * FROM cuenta')
-        data = cursor.fetchone()
-        password = data[5]
-
-        if len(password) == 0:
-            self.home = MainUI()
-            self.home.show()
-            self.close()
-
-        if password_field.text() == password:
-            self.home = MainUI()
-            self.home.show()
-            self.close()
+    def on_numpad_button_click(self, text, password_field):
+        if (text == "C"):
+            self.password_field.setText("")
         else:
-            QtWidgets.QMessageBox.warning(self, "Error", "Contraseña incorrecta")
+            self.password_field.setText(password_field.text() + text)
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = LoginWindow()
-    window.show()
-    sys.exit(app.exec_())
+    def login(self, text, password_field, app_state):
+        try:
+            cursor.execute('SELECT * FROM cuenta')
+            data = cursor.fetchone()
+            password = data[5]
+
+            if len(password) == 0:
+                indice_actual = app_state.get_stack()
+                app_state.set_stack(indice_actual + 1)
+
+            if password_field.text() == password:
+                indice_actual = app_state.get_stack()
+                app_state.set_stack(indice_actual + 1)
+            else:
+                QtWidgets.QMessageBox.warning(
+                    self, "Error", "Contraseña incorrecta")
+        except Exception as e:
+            QtWidgets.QMessageBox.warning(
+                self, "Error", "No hay una contraseña establecida")

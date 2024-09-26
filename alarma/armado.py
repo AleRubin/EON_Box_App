@@ -1,19 +1,13 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QFrame
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QFrame
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtCore import Qt, QSize, QThread, pyqtSignal
 import requests
 import datetime as dt
 
-class Armado(QMainWindow):
-    def __init__(self):
+class Armado(QWidget):
+    def __init__(self, app_state):
         super().__init__()
-        self.setWindowTitle("Main UI")
-        self.setGeometry(0, 0,1024,600)
-        self.setStyleSheet("background-color: rgba(38,64,67,255);")
-
-        main_widget = QWidget()
-        self.setCentralWidget(main_widget)
-        main_layout = QVBoxLayout(main_widget)
+        main_layout = QVBoxLayout()
         hbox_top = QHBoxLayout()
 
         hbox_top.setAlignment(Qt.AlignLeft | Qt.AlignTop)  
@@ -44,7 +38,7 @@ class Armado(QMainWindow):
         button_home.setIcon(QIcon("images/home.png"))
         button_home.setIconSize(QSize(50, 50))
         button_home.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_home.clicked.connect(self.gotoHome)
+        button_home.clicked.connect(lambda: self.gotoHome(app_state))
         left_layout.addWidget(button_home)
 
         armado_layout = QVBoxLayout()
@@ -52,7 +46,7 @@ class Armado(QMainWindow):
         button_info.setIcon(QIcon("images/info.png"))
         button_info.setIconSize(QSize(50, 50))
         button_info.setStyleSheet("background-color: rgba(38,64,67,255);")
-        button_info.clicked.connect(self.gotoInfo)
+        button_info.clicked.connect(lambda: self.gotoInfo(app_state))
         left_layout.addWidget(button_info)
         # Left VBox
         central_layout.addLayout(armado_layout)
@@ -158,17 +152,14 @@ class Armado(QMainWindow):
         self.sensor_updater = SensorUpdater()
         self.sensor_updater.signal.connect(self.update_ui)
         self.sensor_updater.start()
-        # main_layout.addStretch(1)
-        # self.showFullScreen()
 
-    def gotoHome(self):
-            from home import MainUI
-            self.main_ui = MainUI()
-            self.main_ui.show()
-            self.hide()
+        self.setLayout(main_layout)
 
-    def gotoInfo(self):
-            print("Info")
+    def gotoHome(self, app_state):
+        app_state.set_stack(5)
+
+    def gotoInfo(self, app_state):
+        app_state.set_stack(8)
     
     def update_ui(self, state):
         estado = 1
@@ -211,11 +202,3 @@ class SensorUpdater(QThread):
             print(f'Error: {e}')
         finally:
             sock.close()
-
-
-
-if __name__ == "__main__":
-    app = QApplication([])
-    window = Armado()
-    window.show()
-    app.exec_()
