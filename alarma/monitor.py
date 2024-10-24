@@ -66,7 +66,7 @@ class Monitor(QWidget):
         button_monitor_interior.setIconSize(QSize(200, 200))
         button_monitor_interior.setStyleSheet(
             "background-color: rgb(77, 128, 119); color: white;")
-        button_monitor_exterior.clicked.connect(lambda: self.activeCamera2)
+        button_monitor_exterior.clicked.connect(lambda: self.activeCamera2())
         center_layout.addWidget(button_monitor_interior)
 
         right_layout = QVBoxLayout()
@@ -83,6 +83,9 @@ class Monitor(QWidget):
         self.setLayout(main_layout)
 
     def activeCamera(self):  # camara Exterior
+        
+        cv2.destroyAllWindows()
+        
         mac = gma()
         cap1 = cv2.VideoCapture(
             'rtsp://admin:eonboxseg1@192.168.1.98/H264?ch=1&subtype=0')
@@ -131,6 +134,10 @@ class Monitor(QWidget):
             label.show()
 
     def activeCamera2(self):
+
+        ''' quitar de grabar la camara 1'''
+        cv2.destroyAllWindows()
+
         mac = gma()
         cap = cv2.VideoCapture(
             'rtsp://admin:eonboxseg1@192.168.1.115/H264?ch=1&subtype=0')

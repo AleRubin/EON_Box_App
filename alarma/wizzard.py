@@ -4,7 +4,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from advancedWizard import AdvancedWizard
 from user_wizard import UserWizard
-# import wifi
+import wifi
 from getmac import get_mac_address as gma
 import requests
 import json
@@ -214,13 +214,12 @@ class Wizard1Window(QWidget):
         indice_actual = app_state.get_stack()
         app_state.set_stack(indice_actual - 1)
 
-    '''def populate_networks(self):
+    def populate_networks(self):
         networks = wifi.Cell.all('wlan0')
 
         # Agregar los nombres de las redes al QComboBox
         for network in networks:
           self.network_combo.addItem(network.ssid)
-          '''
 
     def show_password_on_click(self):
         if self.show_password.isChecked():
