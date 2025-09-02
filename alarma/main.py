@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.widget_central)
         self.layout = QVBoxLayout(self.widget_central)
 
-        self.step1 = HelloView(app_state)
+        self.step1 = HelloView(app_state, self.siguiente_paso)
         self.step2 = InicioWindow(app_state)
         self.step3 = Wizard1Window(app_state)
         self.step4 = AdvancedWizard(app_state)
